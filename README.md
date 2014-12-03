@@ -2,7 +2,7 @@
 SCHEMING-THUNDER
 ================
 
-Food Tinder
+Meal match
 
 ## Team
 
