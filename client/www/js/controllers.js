@@ -27,15 +27,9 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CardsCtrl', function($scope, $http, TDCardDelegate) {
+.controller('CardsCtrl', function($scope, $http, $localstorage,TDCardDelegate) {
   console.log('CARDS CTRL');
-  var cardTypes = [
-    { image: 'https://pbs.twimg.com/profile_images/479740132258361344/KaYdH9hE.jpeg' },
-    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
-    { image: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg' },
-  ];
-
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+  var cardTypes;
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
@@ -48,14 +42,22 @@ angular.module('starter.controllers', [])
   }
 
   $scope.startExplore = function() {
-    $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
-      console.log('success', data);
-      cardTypes = data;
+    console.log($localstorage.getObject('temp'));
+
+    if(!$localstorage.getObject('temp')){
+      $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
+        console.log('success', data);
+        cardTypes = data;
+        $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+        $localstorage.setObject('temp', data);
+      })
+      .error(function(data, status, headers, config) {
+      console.log('fail', data);
+      }); 
+    } else{
+      cardTypes = $localstorage.getObject('temp');
       $scope.cards = Array.prototype.slice.call(cardTypes, 0);
-    })
-    .error(function(data, status, headers, config) {
-    console.log('fail', data);
-    });
+    }
   };
 
   $scope.startExplore();
