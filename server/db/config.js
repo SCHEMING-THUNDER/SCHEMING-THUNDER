@@ -1,7 +1,6 @@
-var Bookshelf = require('bookshelf');
-
-var db = Bookshelf.initialize({
-  client: 'mysql',
+// Establish connection with mysql database
+var knex = require('knex')({
+  client:'mysql',
   connection: {
     host: '127.0.0.1',
     user: 'root',
@@ -10,6 +9,7 @@ var db = Bookshelf.initialize({
     charset: 'utf8',
   }
 });
+var db = require('bookshelf')(knex);
 
 // Create table schemas
 db.knex.schema.hasTable('users').then(function(exists){
@@ -53,47 +53,12 @@ db.knex.schema.hasTable('recipes').then(function(exists){
 db.knex.schema.hasTable('ingredients').then(function(exists){
   if(!exists){
     db.knex.schema.createTable('ingredients', function(ingredient){
-      recipe.increments('id').primary();
-      recipe.string('name').unique();
+      ingredient.increments('id').primary();
+      ingredient.string('name').unique();
     }).then(function(table){
       console.log('*********Created Ingredient Table***********', table);
     });
   }
 });
-
-// Create table models and establish associations
-var User = db.Model.extend({
-  tableName: 'users',
-  meals: function(){
-    return this.belongsToMany(Meal);
-  }
-});
-
-var Meal = db.Model.extend({
-  tableName: 'meals',
-  users: function(){
-    return this.belongsToMany(User);
-  },
-  recipes: function(){
-    return this.belongsToMany(Recipe);
-  }
-});
-
-var Recipe = db.Model.extend({
-  tableName: 'recipes',
-  meals: function(){
-    return this.belongsToMany(Meal);
-  },
-  ingredients: function(){
-    return this.belongsToMany(Ingredient);
-  }
-});
-
-var Ingredient = db.Model.extend({
-  tableName: 'ingredients',
-  recipes: function(){
-    return this.belongsToMany(Recipe);
-  }
-})
 
 module.exports = db;
