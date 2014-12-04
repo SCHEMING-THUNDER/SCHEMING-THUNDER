@@ -5,18 +5,17 @@
   "dependencies": {
     "bluebird": "^2.3.0",
     "body-parser": "^1.9.2",
+    "bookshelf": "^0.7.9",
     "chai": "^1.9.1",
     "express": "^4.10.1",
+    "knex": "^0.7.3",
     "lodash": "^2.4.1",
     "mocha": "^1.21.4",
     "morgan": "^1.4.1",
     "mysql": "^2.5.3",
     "request": "^2.40.0",
     "sequelize": "^2.0.0-rc2",
-    "bookshelf": "~0.6.4",
     "underscore": "^1.7.0"
   },
-  "scripts": {
-    
-  }
+  "scripts": {}
 }
