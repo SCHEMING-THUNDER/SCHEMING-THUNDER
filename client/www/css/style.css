@@ -40,6 +40,11 @@ td-card .image {
   position: relative;
 }
 
+td-card .image img{
+
+}
+
+
 td-card img {
   max-width: 100%;
   border-radius: 6px;
