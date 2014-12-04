@@ -1,8 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
-})
-
 .controller('FriendsCtrl', function($scope, Friends) {
   $scope.friends = Friends.all();
 })
@@ -27,17 +24,20 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CardsCtrl', function($scope, $http, $localstorage,TDCardDelegate) {
-  console.log('CARDS CTRL');
+.controller('DashCtrl', function($scope, $http, $localstorage,TDCardDelegate) {
   var cardTypes;
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
+    // $scope.addCard();
+    console.log('destroyed');
   };
 
   $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
+
+    var newCard = cardTypes.splice(Math.floor(Math.random() * cardTypes.length),1)[0];
+    //newCard.id = Math.random();
+    console.log('new card is', newCard);
     $scope.cards.push(angular.extend({}, newCard));
   }
 
@@ -54,9 +54,12 @@ angular.module('starter.controllers', [])
       .error(function(data, status, headers, config) {
       console.log('fail', data);
       }); 
-    } else{
-      cardTypes = $localstorage.getObject('temp');
-      $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+    } else{ //currently pulling from local storage data to avoid overusing api
+
+      //make a copy of local storage so that local storage remains persistant
+      cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
+      //load 3 cards for view
+      $scope.cards = Array.prototype.splice.call(cardTypes, 0,3);
     }
   };
 
@@ -72,4 +75,11 @@ angular.module('starter.controllers', [])
     console.log('RIGHT SWIPE');
     $scope.addCard();
   };
-});
+})
+
+.filter('largerimages', function () {
+  console.log('this ran');
+    return function (item) {
+      return item.replace('s90', 's360');  
+    }
+  });

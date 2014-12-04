@@ -46,7 +46,7 @@ angular.module('starter', ['ionic',
       views: {
         'tab-dash': {
           templateUrl: 'templates/tab-dash.html',
-          controller: 'CardsCtrl'
+          controller: 'DashCtrl'
         }
       }
     })
