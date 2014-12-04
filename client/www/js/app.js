@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionic.contrib.ui.tinderCards'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -43,7 +43,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'tab-dash': {
           templateUrl: 'templates/tab-dash.html',
-          controller: 'DashCtrl'
+          controller: 'CardsCtrl'
         }
       }
     })
