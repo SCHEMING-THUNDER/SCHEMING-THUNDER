@@ -5,6 +5,7 @@
   "dependencies": {
     "bluebird": "^2.3.0",
     "body-parser": "^1.9.2",
+    "bookshelf": "^0.7.9",
     "chai": "^1.9.1",
     "express": "^4.10.1",
     "knex": "^0.7.3",
