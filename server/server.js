@@ -4,15 +4,19 @@ var express = require('express');
 var morgan = require('morgan');
 var parser = require('body-parser');
 var cors = require('cors');
+var process 
 
 // Router
 var router = require('./routes.js');
+
+//Port
+var port = process.env.PORT || 3000;
 
 var app = express();
 module.exports.app = app;
 
 // Set what we are listening on.
-app.set("port", 3000);
+app.set("port", port);
 
 //Taking care of cross-origin requests
 app.use(cors());
