@@ -12,7 +12,8 @@ module.exports = {
     //        1) parse the response
     //        2) serve the picture to the user as the response;
     //        3) save the dish to the dishes table in the database;
-    //         
+    //
+      helpers.getRecipes();         
       res.json("Hello from Thunder");
     },
     post: function (req, res) {  //This means the user decided whether he likes the dish or not;
