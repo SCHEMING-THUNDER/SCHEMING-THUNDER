@@ -4,6 +4,14 @@ var helpers = require('./helpers.js')
 
 
 module.exports = {
+  '/': {
+    get: function (req, res) {
+      res.redirect('/pictures');
+    },
+    post: function (req, res) {
+
+    }
+  }, 
   pictures: {
     get: function (req, res) {   //This means the user wants to get a new picture;
     // have to send an api request to Yummly;
@@ -12,9 +20,9 @@ module.exports = {
     //        1) parse the response
     //        2) serve the picture to the user as the response;
     //        3) save the dish to the dishes table in the database;
-    //
-      helpers.getRecipes();         
-      res.json("Hello from Thunder");
+      
+      helpers.getRecipes(res);         
+      //res.json("Hello from Thunder");
     },
     post: function (req, res) {  //This means the user decided whether he likes the dish or not;
       // if he likes it, add the dish to the longlist object.
