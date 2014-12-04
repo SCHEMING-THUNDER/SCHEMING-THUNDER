@@ -24,7 +24,12 @@ module.exports = {
       helpers.getRecipes(res);         
       //res.json("Hello from Thunder");
     },
-    post: function (req, res) {  //This means the user decided whether he likes the dish or not;
+    post: function (req, res) {
+      helpers.addToLongList(req.body);
+      console.log("list", helpers.longList);
+      res.sendStatus(201);
+
+      //This means the user decided whether he likes the dish or not;
       // if he likes it, add the dish to the longlist object.
       // save the information to the "join" table of the database;
       // do the same thing that you did with the get request;
