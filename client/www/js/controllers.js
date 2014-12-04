@@ -1,8 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
-})
-
 .controller('FriendsCtrl', function($scope, Friends) {
   $scope.friends = Friends.all();
 })
@@ -27,35 +24,43 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CardsCtrl', function($scope, $http, TDCardDelegate) {
-  console.log('CARDS CTRL');
-  var cardTypes = [
-    { image: 'https://pbs.twimg.com/profile_images/479740132258361344/KaYdH9hE.jpeg' },
-    { image: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png' },
-    { image: 'https://pbs.twimg.com/profile_images/491995398135767040/ie2Z_V6e.jpeg' },
-  ];
-
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+.controller('DashCtrl', function($scope, $http, $localstorage,TDCardDelegate) {
+  var cardTypes;
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
+    // $scope.addCard();
+    console.log('destroyed');
   };
 
   $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
+
+    var newCard = cardTypes.splice(Math.floor(Math.random() * cardTypes.length),1)[0];
+    //newCard.id = Math.random();
+    console.log('new card is', newCard);
     $scope.cards.push(angular.extend({}, newCard));
   }
 
   $scope.startExplore = function() {
-    $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
-      console.log('success', data);
-      cardTypes = data;
-      $scope.cards = Array.prototype.slice.call(cardTypes, 0);
-    })
-    .error(function(data, status, headers, config) {
-    console.log('fail', data);
-    });
+    console.log($localstorage.getObject('temp'));
+
+    if(!$localstorage.getObject('temp')){
+      $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
+        console.log('success', data);
+        cardTypes = data;
+        $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+        $localstorage.setObject('temp', data);
+      })
+      .error(function(data, status, headers, config) {
+      console.log('fail', data);
+      }); 
+    } else{ //currently pulling from local storage data to avoid overusing api
+
+      //make a copy of local storage so that local storage remains persistant
+      cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
+      //load 3 cards for view
+      $scope.cards = Array.prototype.splice.call(cardTypes, 0,3);
+    }
   };
 
   $scope.startExplore();
@@ -70,4 +75,11 @@ angular.module('starter.controllers', [])
     console.log('RIGHT SWIPE');
     $scope.addCard();
   };
-});
+})
+
+.filter('largerimages', function () {
+  console.log('this ran');
+    return function (item) {
+      return item.replace('s90', 's360');  
+    }
+  });
