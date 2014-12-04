@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CardsCtrl', function($scope, TDCardDelegate) {
+.controller('CardsCtrl', function($scope, $http, TDCardDelegate) {
   console.log('CARDS CTRL');
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/479740132258361344/KaYdH9hE.jpeg' },
@@ -46,6 +46,19 @@ angular.module('starter.controllers', [])
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   }
+
+  $scope.startExplore = function() {
+    $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
+      console.log('success', data);
+      cardTypes = data;
+      $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+    })
+    .error(function(data, status, headers, config) {
+    console.log('fail', data);
+    });
+  };
+
+  $scope.startExplore();
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
