@@ -1,4 +1,4 @@
-var db = require('../db');
+//var db = require('../db');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
 var helpers = require('./helpers.js')
 
@@ -13,7 +13,7 @@ module.exports = {
     //        2) serve the picture to the user as the response;
     //        3) save the dish to the dishes table in the database;
     //         
-        
+      res.json("Hello from Thunder");
     },
     post: function (req, res) {  //This means the user decided whether he likes the dish or not;
       // if he likes it, add the dish to the longlist object.
