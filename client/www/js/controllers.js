@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('CardsCtrl', function($scope, TDCardDelegate) {
+.controller('CardsCtrl', function($scope, $http, TDCardDelegate) {
   console.log('CARDS CTRL');
   var cardTypes = [
     { image: 'https://pbs.twimg.com/profile_images/479740132258361344/KaYdH9hE.jpeg' },
@@ -46,6 +46,21 @@ angular.module('starter.controllers', [])
     newCard.id = Math.random();
     $scope.cards.push(angular.extend({}, newCard));
   }
+
+  $scope.startExplore = function() {
+    $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
+    // this callback will be called asynchronously
+    // when the response is available
+    console.log('success', data);
+    })
+    .error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+    console.log('fail', data);
+    });
+  };
+
+  //$scope.startExplore();
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
