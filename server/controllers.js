@@ -17,7 +17,9 @@ module.exports = {
     },
     post: function (req, res) {  //This means the user decided whether he likes the dish or not;
       // if he likes it, add the dish to the longlist object.
-      // save the information to the "join" table of the database;      
+      // save the information to the "join" table of the database;
+      // do the same thing that you did with the get request;
+      // alternatively, create the "longlist object" at the client side;      
     }
   },
 
