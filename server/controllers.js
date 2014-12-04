@@ -40,6 +40,7 @@ module.exports = {
   list: {
     get: function (req, res) { // This means the user wants to see the longlist;
       // serve the longlist object for this session;
+      res.json(helpers.longList);
     },
     post: function (req, res) {
       // never happens, not applicable;
