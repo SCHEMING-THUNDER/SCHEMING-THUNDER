@@ -13,10 +13,7 @@
     "mysql": "^2.5.3",
     "request": "^2.40.0",
     "sequelize": "^2.0.0-rc2",
-    "bookshelf": "~0.6.4",
     "underscore": "^1.7.0"
   },
-  "scripts": {
-    
-  }
+  "scripts": {}
 }
