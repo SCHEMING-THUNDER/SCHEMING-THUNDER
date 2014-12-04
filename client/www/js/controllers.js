@@ -49,18 +49,16 @@ angular.module('starter.controllers', [])
 
   $scope.startExplore = function() {
     $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
-    console.log('success', data);
+      console.log('success', data);
+      cardTypes = data;
+      $scope.cards = Array.prototype.slice.call(cardTypes, 0);
     })
     .error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
     console.log('fail', data);
     });
   };
 
-  //$scope.startExplore();
+  $scope.startExplore();
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
