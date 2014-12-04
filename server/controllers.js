@@ -6,13 +6,13 @@ var helpers = require('./helpers.js')
 module.exports = {
   '/': {
     get: function (req, res) {
-      res.redirect('/pictures');
+      res.redirect('/explore');
     },
     post: function (req, res) {
 
     }
   }, 
-  pictures: {
+  explore: {
     get: function (req, res) {   //This means the user wants to get a new picture;
     // have to send an api request to Yummly;
     //   if Yummly responds with an error, send a request to our database
@@ -32,7 +32,7 @@ module.exports = {
     }
   },
 
-  longlist: {
+  list: {
     get: function (req, res) { // This means the user wants to see the longlist;
       // serve the longlist object for this session;
     },
