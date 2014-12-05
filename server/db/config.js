@@ -1,64 +1,48 @@
 // Establish connection with mysql database
-var knex = require('knex')({
-  client:'mysql',
-  connection: {
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'scheming_thunder',
-    charset: 'utf8',
-  }
-});
-var db = require('bookshelf')(knex);
-
-// Create table schemas
-db.knex.schema.hasTable('users').then(function(exists){
-  if(!exists){
-    db.knex.schema.createTable('users', function(user){
-      user.increments('id').primary();
-      user.string('username', 100).unique();
-      user.string('password', 100);
-      user.timestamps();
-    }).then(function(table){
-      console.log('*********Created User Table*************', table);
-    });
-  }
+var Sequelize = require('sequelize');
+var orm = new Sequelize('scheming_thunder', 'root', '', {
+  dialect: 'mysql',
 });
 
-db.knex.schema.hasTable('meals').then(function(exists){
-  if(!exists){
-    db.knex.schema.createTable('meals', function(meal){
-      meal.increments('id').primary();
-      meal.string('title').unique();
-      meal.timestamps();
-    }).then(function(table){
-      console.log('*********Created Meal Table*********', table);
-    });
+orm.authenticate().complete(function(err){
+  if(!!err){
+    console.log('Unable to connect to database:', err)
+  } else {
+    console.log('Connection has been established successfully.')
   }
+})
+
+var User = orm.define('User', {
+  username: {type: Sequelize.STRING, unique: true},
+  password: Sequelize.STRING,
 });
 
-db.knex.schema.hasTable('recipes').then(function(exists){
-  if(!exists){
-    db.knex.schema.createTable('recipes', function(recipe){
-      recipe.increments('id').primary();
-      recipe.string('title').unique();
-      recipe.timestamps();
-      recipe.string('image').unique();
-    }).then(function(table){
-      console.log('********Created Recipe Table**********', table);
-    });
-  }
+var Meal = orm.define('Meal', {
+  title: Sequelize.STRING,
 });
 
-db.knex.schema.hasTable('ingredients').then(function(exists){
-  if(!exists){
-    db.knex.schema.createTable('ingredients', function(ingredient){
-      ingredient.increments('id').primary();
-      ingredient.string('name').unique();
-    }).then(function(table){
-      console.log('*********Created Ingredient Table***********', table);
-    });
-  }
+var Recipe = orm.define('Recipe', {
+  title: {type: Sequelize.STRING, unique: true}
 });
 
-module.exports = db;
+var Ingredient = orm.define('Ingredient', {
+  name: {type: Sequelize.STRING, unique: true}
+});
+
+User.hasMany(Meal);
+Meal.belongsTo(User);
+Meal.hasMany(Recipe);
+Recipe.hasMany(Meal);
+Recipe.hasMany(Ingredient);
+Ingredient.hasMany(Recipe);
+
+User.sync();
+Meal.sync();
+Recipe.sync();
+Ingredient.sync();
+
+exports.User = User;
+exports.Meal = Meal;
+exports.Recipe = Recipe;
+exports.Ingredient = Ingredient;
+
