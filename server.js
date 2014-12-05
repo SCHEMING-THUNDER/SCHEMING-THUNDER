@@ -8,7 +8,7 @@ var cors = require('cors');
 //var process = require('process');
 
 // Router
-var router = require('./routes.js');
+var router = require('./server/routes.js');
 
 process.env.nodeEnv = process.env.nodeEnv || 'development';
 process.env.OPENSHIFT_NODEJS_IP ||
@@ -38,7 +38,7 @@ app.use("/test", router);
 
 //Have to think about whether static serving is necessary in this context.
 
-var whereTo = path.join(__dirname, "../public"); //path to static content
+var whereTo = path.join(__dirname, "./public"); //path to static content
 
 // Serve the client files
 app.use(express.static(whereTo));
