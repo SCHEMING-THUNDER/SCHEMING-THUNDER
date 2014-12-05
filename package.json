@@ -18,6 +18,7 @@
     "path": "^0.4.9",
     "request": "^2.40.0",
     "sequelize": "^2.0.0-rc2",
+    "sqlite3": "^3.0.4",
     "underscore": "^1.7.0"
   },
   "scripts": {

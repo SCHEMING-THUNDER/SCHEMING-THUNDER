@@ -1,4 +1,4 @@
-var db = require('./db');
+var db = require('./db/db');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
 var helpers = require('./helpers.js')
 
