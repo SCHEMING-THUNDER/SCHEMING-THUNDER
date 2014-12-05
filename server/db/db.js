@@ -5,8 +5,9 @@ make sure to create a local database called scheming_thunder
 and change username and password accordingly
 **********************/
 var Sequelize = require('sequelize');
-var orm = new Sequelize('scheming_thunder', 'root', '', {
-  dialect: 'mysql',
+var orm = new Sequelize('scheming_thunder', '', '', {
+  dialect: 'sqlite',
+  storage: 'scheming_thunder'
 });
 
 orm.authenticate().complete(function(err){
