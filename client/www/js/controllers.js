@@ -45,10 +45,10 @@ angular.module('starter.controllers', [])
     console.log($localstorage.getObject('temp'));
 
     if(!$localstorage.getObject('temp')){
-      $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
+      $http.get("https://mealmatch2.herokuapp.com/test/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
-        $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+        $scope.cards = Array.prototype.slice.call(cardTypes, 0,3);
         $localstorage.setObject('temp', data);
       })
       .error(function(data, status, headers, config) {
