@@ -11,6 +11,8 @@ var router = require('./routes.js');
 
 //Port
 console.log("process", process);
+
+process.env.nodeEnv = process.env.nodeEnv || 'development';
 var port = process.env.PORT || 3000;
 
 var app = express();
