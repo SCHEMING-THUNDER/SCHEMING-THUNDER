@@ -1,13 +1,8 @@
-// Establish connection with mysql database
-
-/********************
-make sure to create a local database called scheming_thunder
-and change username and password accordingly
-**********************/
+var path = require('path');
 var Sequelize = require('sequelize');
 var orm = new Sequelize('scheming_thunder', '', '', {
   dialect: 'sqlite',
-  storage: 'scheming_thunder'
+  storage: path.join(__dirname, 'scheming_thunder')
 });
 
 orm.authenticate().complete(function(err){
