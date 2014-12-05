@@ -9,5 +9,8 @@ angular.module('starter.controllers.favorites', [])
     })
     .catch(function(er) {console.error(er);});
   
+  $scope.deleteCard = function(card) {
+    Favorites.deleteFromFavorites(card);
+  };
 
 })
