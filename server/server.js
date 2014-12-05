@@ -8,7 +8,7 @@ var cors = require('cors');
 //var process = require('process');
 
 // Router
-var router = require('./server/routes.js');
+var router = require('./routes.js');
 
 // process.env.nodeEnv = 'production';
 // //process.env.OPENSHIFT_NODEJS_IP ||
@@ -40,13 +40,11 @@ app.use("/test", router);
 
 //Have to think about whether static serving is necessary in this context.
 
-var whereTo = path.join(__dirname, "./public"); //path to static content
+var whereTo = path.join(__dirname, "../public"); //path to static content
 
 // Serve the client files
 app.use(express.static(whereTo));
 
-// If we are being run directly, run the server.
-//if (!module.parent) {
-  app.listen(app.get("port"));
-  console.log("Listening on", app.get("port"));
-//}
+
+app.listen(app.get("port"));
+console.log("Listening on", app.get("port"));

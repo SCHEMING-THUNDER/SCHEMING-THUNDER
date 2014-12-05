@@ -22,6 +22,6 @@
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "node server.js"
+    "start": "node server/server.js"
   }
 }
