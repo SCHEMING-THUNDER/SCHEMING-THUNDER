@@ -18,7 +18,9 @@ process.env.nodeEnv = 'production';
 console.log("running", process.env.nodeEnv);
 
 //Port
-var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
+
+console.log("port", port);
 
 var app = express();
 module.exports.app = app;
@@ -44,7 +46,7 @@ var whereTo = path.join(__dirname, "./public"); //path to static content
 app.use(express.static(whereTo));
 
 // If we are being run directly, run the server.
-if (!module.parent) {
+//if (!module.parent) {
   app.listen(app.get("port"));
   console.log("Listening on", app.get("port"));
-}
+//}
