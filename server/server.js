@@ -10,11 +10,15 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
-//process.env.nodeEnv = process.env.nodeEnv || 'development';
+process.env.nodeEnv = process.env.nodeEnv || 'development';
+process.env.OPENSHIFT_NODEJS_IP ||
+           process.env.IP ||
+           undefined;
+
 console.log("running", process.env.nodeEnv);
 
 //Port
-var port = process.env.PORT || 3000;
+var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
 
 var app = express();
 module.exports.app = app;
