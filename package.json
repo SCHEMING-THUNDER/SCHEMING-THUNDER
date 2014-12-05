@@ -18,5 +18,7 @@
     "sequelize": "^2.0.0-rc2",
     "underscore": "^1.7.0"
   },
-  "scripts": {}
+  "scripts": {
+    "start": "node server/server.js"
+  }
 }
