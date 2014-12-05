@@ -7,4 +7,7 @@ for (var route in controllers) {
     .post(controllers[route].post);
 }
 
+router.route("/list")
+  .delete(controllers.list.todelete);
+
 module.exports = router;
