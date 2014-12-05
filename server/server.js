@@ -38,7 +38,7 @@ app.use("/test", router);
 
 //Have to think about whether static serving is necessary in this context.
 
-var whereTo = path.join(__dirname, "../client"); //path to static content
+var whereTo = path.join(__dirname, "../public"); //path to static content
 
 // Serve the client files
 app.use(express.static(whereTo));
