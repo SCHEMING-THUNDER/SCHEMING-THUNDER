@@ -22,6 +22,10 @@ exports.addToLongList = function (data) { //the function that adds to the longli
   exports.longList.push(data);
 }
 
+exports.deleteFromLongList = function (data) {
+  
+}
+
 /*Options:
 - scrape some actual ids; store them (server or database); make request to a random id;
 - or make an array of random cooking related words; send requests for words based on this array;
