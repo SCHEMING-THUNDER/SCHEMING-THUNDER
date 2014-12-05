@@ -46,7 +46,7 @@ var whereTo = path.join(__dirname, "./public"); //path to static content
 app.use(express.static(whereTo));
 
 // If we are being run directly, run the server.
-if (!module.parent) {
+//if (!module.parent) {
   app.listen(app.get("port"));
   console.log("Listening on", app.get("port"));
-}
+//}
