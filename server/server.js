@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 
 // Middleware
 var morgan = require('morgan');
@@ -32,6 +33,11 @@ app.use(parser.json());
 app.use("/", router);
 
 //Have to think about whether static serving is necessary in this context.
+
+var whereTo = path.join(__dirname, "../client"); //path to static content
+
+// Serve the client files
+app.use(express.static(whereTo));
 
 // If we are being run directly, run the server.
 if (!module.parent) {
