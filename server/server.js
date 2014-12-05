@@ -4,12 +4,13 @@ var express = require('express');
 var morgan = require('morgan');
 var parser = require('body-parser');
 var cors = require('cors');
-var process 
+var process = require('process');
 
 // Router
 var router = require('./routes.js');
 
 //Port
+console.log("process", process);
 var port = process.env.PORT || 3000;
 
 var app = express();
