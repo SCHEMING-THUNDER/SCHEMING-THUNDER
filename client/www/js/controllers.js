@@ -1,13 +1,5 @@
 angular.module('starter.controllers', [])
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
-})
-
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
-})
-
 .controller('AccountCtrl', function($scope) {
 })
 
@@ -44,11 +36,12 @@ angular.module('starter.controllers', [])
   $scope.startExplore = function() {
     console.log($localstorage.getObject('temp'));
 
-    if(!$localstorage.getObject('temp')){
+    if(Object.keys($localstorage.getObject('temp')).length ===0){
+      console.log('making a http request');
       $http.get("https://mealmatch2.herokuapp.com/test/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
-        $scope.cards = Array.prototype.slice.call(cardTypes, 0,3);
+        $scope.cards = Array.prototype.slice.call(cardTypes, 1,4);
         $localstorage.setObject('temp', data);
       })
       .error(function(data, status, headers, config) {
@@ -59,7 +52,7 @@ angular.module('starter.controllers', [])
       //make a copy of local storage so that local storage remains persistant
       cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
       //load 3 cards for view
-      $scope.cards = Array.prototype.splice.call(cardTypes, 0,3);
+      $scope.cards = Array.prototype.splice.call(cardTypes, 1,4);
     }
   };
 
@@ -80,6 +73,6 @@ angular.module('starter.controllers', [])
 .filter('largerimages', function () {
   console.log('this ran');
     return function (item) {
-      return item.replace('s90', 's360');  
+      return item.replace('s90', 's450');  
     }
   });
