@@ -36,7 +36,7 @@ app.use(morgan('dev'));
 app.use(parser.json());
 
 // Set up our routes
-app.use("/test", router);
+app.use("/", router);
 
 //Have to think about whether static serving is necessary in this context.
 
