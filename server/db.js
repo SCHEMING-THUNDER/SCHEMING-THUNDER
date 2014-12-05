@@ -1,1 +1,0 @@
-var Bookshelf = require('bookshelf');

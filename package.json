@@ -15,7 +15,7 @@
     "morgan": "^1.4.1",
     "mysql": "^2.5.3",
     "request": "^2.40.0",
-    "sequelize": "^2.0.0-rc2",
+    "sequelize": "^2.0.0-rc3",
     "underscore": "^1.7.0"
   },
   "scripts": {}
