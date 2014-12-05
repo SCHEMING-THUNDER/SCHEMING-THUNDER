@@ -10,7 +10,7 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
-process.env.nodeEnv = process.env.nodeEnv || 'development';
+//process.env.nodeEnv = process.env.nodeEnv || 'development';
 console.log("running", process.env.nodeEnv);
 
 //Port
