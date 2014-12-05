@@ -4,14 +4,14 @@ var helpers = require('./helpers.js')
 
 
 module.exports = {
-  '/': {
+  /*'/': {
     get: function (req, res) {
       res.redirect('/explore');
     },
     post: function (req, res) {
 
     }
-  }, 
+  }, */
   explore: {
     get: function (req, res) {   //This means the user wants to get a new picture;
     // have to send an api request to Yummly;

@@ -2,6 +2,7 @@
   "name": "MealMatch",
   "version": "0.0.0",
   "main": "server/server.js",
+  "repository": "",
   "dependencies": {
     "bluebird": "^2.3.0",
     "body-parser": "^1.9.2",
@@ -14,9 +15,13 @@
     "mocha": "^1.21.4",
     "morgan": "^1.4.1",
     "mysql": "^2.5.3",
+    "path": "^0.4.9",
     "request": "^2.40.0",
     "sequelize": "^2.0.0-rc2",
     "underscore": "^1.7.0"
   },
-  "scripts": {}
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node server/server.js"
+  }
 }
