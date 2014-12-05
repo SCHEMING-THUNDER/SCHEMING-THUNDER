@@ -1,5 +1,13 @@
-angular.module('starter.controllers.recipes', [])
+angular.module('starter.controllers.favorites', [])
 
-.controller('FriendsCtrl', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('FavoritesCtrl', function($scope, Favorites) {
+  $scope.favorites = [];
+  Favorites.getFavoritesList()
+    .then(function(data) {
+      console.log("data", data);
+      $scope.favorites = data;
+    })
+    .catch(function(er) {console.error(er);});
+  
+
 })

@@ -44,6 +44,11 @@ module.exports = {
     },
     post: function (req, res) {
       // never happens, not applicable;
+    },
+    todelete: function (req, res) { // The user wants to delete a recipe
+      // delete the recipe from the longlist, then serve the longlist;
+      helpers.deleteFromLongList(req.body);
+      // res.json(helpers.longList); - might not need it but call get from the client instead;
     }
   }
 };
