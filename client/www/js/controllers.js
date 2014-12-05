@@ -16,19 +16,19 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('DashCtrl', function($scope, $http, $localstorage,TDCardDelegate) {
+.controller('DashCtrl', function($scope, $http, $localstorage,TDCardDelegate,$timeout) {
   var cardTypes;
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
-    // $scope.addCard();
     console.log('destroyed');
+    $timeout($scope.addCard,0);
   };
 
   $scope.addCard = function() {
 
     var newCard = cardTypes.splice(Math.floor(Math.random() * cardTypes.length),1)[0];
-    //newCard.id = Math.random();
+    newCard.id = Math.random();
     console.log('new card is', newCard);
     $scope.cards.push(angular.extend({}, newCard));
   }
@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
 
     if(Object.keys($localstorage.getObject('temp')).length ===0){
       console.log('making a http request');
-      $http.get("https://mealmatch2.herokuapp.com/test/explore").success(function(data, status, headers, config) {
+      $http.get("http://mealmatch.azurewebsites.net/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
         $scope.cards = Array.prototype.slice.call(cardTypes, 1,4);
@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
 
       //make a copy of local storage so that local storage remains persistant
       cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
-      //load 3 cards for view
+      //load 1 cards for view
       $scope.cards = Array.prototype.splice.call(cardTypes, 1,4);
     }
   };
@@ -60,19 +60,23 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
+  //!!!!warning, swipe left and right doesn't seem to always register
+  //maybe a library issue
+
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
-    $scope.addCard();
+    // $scope.addCard();
   };
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
-    $scope.addCard();
+    // $scope.addCard();
   };
 })
 
 .filter('largerimages', function () {
   console.log('this ran');
     return function (item) {
+      //modify the image url to load larger images
       return item.replace('s90', 's450');  
     }
   });
