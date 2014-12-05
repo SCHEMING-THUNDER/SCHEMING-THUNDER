@@ -1,0 +1,14 @@
+<ion-view title="Favorites">
+<ion-content class="padding">
+  <div class="list">
+
+    <div ng-repeat="card in cards">
+	  <a class="item item-thumbnail-left" href="#">
+		<img ng-src="{{card.imageUrlsBySize.90}}">
+	    <h2>{{card.attributes.course[0]}}</h2>
+	    <p>{{card.recipeName}}</p>
+	  </a>
+    </div>
+
+  </div>
+</ion-view>

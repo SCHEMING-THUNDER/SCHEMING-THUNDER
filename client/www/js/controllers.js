@@ -38,10 +38,10 @@ angular.module('starter.controllers', [])
 
     if(Object.keys($localstorage.getObject('temp')).length ===0){
       console.log('making a http request');
-      $http.get("https://mealmatch2.herokuapp.com/test/explore").success(function(data, status, headers, config) {
+      $http.get("http://mealmatch.azurewebsites.net/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
-        $scope.cards = Array.prototype.slice.call(cardTypes, 1,1);
+        $scope.cards = Array.prototype.slice.call(cardTypes, 1,4);
         $localstorage.setObject('temp', data);
       })
       .error(function(data, status, headers, config) {
@@ -51,8 +51,8 @@ angular.module('starter.controllers', [])
 
       //make a copy of local storage so that local storage remains persistant
       cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
-      //load 3 cards for view
-      $scope.cards = Array.prototype.splice.call(cardTypes, 1,1);
+      //load 1 cards for view
+      $scope.cards = Array.prototype.splice.call(cardTypes, 1,4);
     }
   };
 
@@ -60,6 +60,9 @@ angular.module('starter.controllers', [])
 })
 
 .controller('CardCtrl', function($scope, TDCardDelegate) {
+  //!!!!warning, swipe left and right doesn't seem to always register
+  //maybe a library issue
+
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     // $scope.addCard();
@@ -73,6 +76,7 @@ angular.module('starter.controllers', [])
 .filter('largerimages', function () {
   console.log('this ran');
     return function (item) {
+      //modify the image url to load larger images
       return item.replace('s90', 's450');  
     }
   });
