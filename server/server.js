@@ -10,10 +10,10 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
-//Port
-console.log("process", process);
-
 process.env.nodeEnv = process.env.nodeEnv || 'development';
+console.log("running", process.env.nodeEnv);
+
+//Port
 var port = process.env.PORT || 3000;
 
 var app = express();
