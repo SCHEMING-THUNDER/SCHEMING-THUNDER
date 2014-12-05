@@ -2,6 +2,7 @@
   "name": "MealMatch",
   "version": "0.0.0",
   "main": "server/server.js",
+  "repository": "",
   "dependencies": {
     "bluebird": "^2.3.0",
     "body-parser": "^1.9.2",
