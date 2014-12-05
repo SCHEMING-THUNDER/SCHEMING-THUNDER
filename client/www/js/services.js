@@ -1,13 +1,13 @@
 angular.module('starter.services', [])
 
 
-.factory('Favorites', function() {
+.factory('Favorites', function($http) {
   // Might use a resource here that returns a JSON array
   
   var getFavoritesList = function() {
       return $http({
         method: 'GET',
-        url: '/list'
+        url: 'http://mealmatch.azurewebsites.net/list'
       })
       .then(function(res) {
         return res.data;
