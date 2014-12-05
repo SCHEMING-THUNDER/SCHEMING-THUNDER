@@ -10,15 +10,17 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
-process.env.nodeEnv = process.env.nodeEnv || 'development';
-process.env.OPENSHIFT_NODEJS_IP ||
-           process.env.IP ||
-           undefined;
+// process.env.nodeEnv = 'production';
+// //process.env.OPENSHIFT_NODEJS_IP ||
+//            process.env.IP ||
+//            undefined;
 
 console.log("running", process.env.nodeEnv);
 
 //Port
-var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
+
+console.log("port", port);
 
 var app = express();
 module.exports.app = app;
@@ -34,17 +36,15 @@ app.use(morgan('dev'));
 app.use(parser.json());
 
 // Set up our routes
-app.use("/test", router);
+app.use("/", router);
 
 //Have to think about whether static serving is necessary in this context.
 
-var whereTo = path.join(__dirname, "../client"); //path to static content
+var whereTo = path.join(__dirname, "../public"); //path to static content
 
 // Serve the client files
 app.use(express.static(whereTo));
 
-// If we are being run directly, run the server.
-if (!module.parent) {
-  app.listen(app.get("port"));
-  console.log("Listening on", app.get("port"));
-}
+
+app.listen(app.get("port"));
+console.log("Listening on", app.get("port"));
