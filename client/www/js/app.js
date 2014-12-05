@@ -58,8 +58,8 @@ angular.module('starter', ['ionic',
       url: '/friends',
       views: {
         'tab-friends': {
-          templateUrl: 'templates/tab-friends.html',
-          controller: 'FriendsCtrl'
+          templateUrl: 'templates/tab-recipes.html',
+          controller: 'DashCtrl' //use recipe controller later when complete
         }
       }
     })
