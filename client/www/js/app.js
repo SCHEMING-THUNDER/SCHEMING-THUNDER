@@ -7,8 +7,11 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
    'starter.controllers',
+   'starter.controllers.recipe_detail',
+   'starter.controllers.recipes',
    'starter.services',
-   'ionic.contrib.ui.tinderCards'])
+   'ionic.contrib.ui.tinderCards',
+   ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
