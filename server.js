@@ -10,10 +10,10 @@ var cors = require('cors');
 // Router
 var router = require('./server/routes.js');
 
-//process.env.nodeEnv = process.env.nodeEnv || 'development';
-process.env.OPENSHIFT_NODEJS_IP ||
-           process.env.IP ||
-           undefined;
+// process.env.nodeEnv = process.env.nodeEnv || 'development';
+// //process.env.OPENSHIFT_NODEJS_IP ||
+//            process.env.IP ||
+//            undefined;
 
 console.log("running", process.env.nodeEnv);
 
