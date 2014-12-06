@@ -1,4 +1,8 @@
 var request = require('request');
+var db = require('./db/dbNaive');
+var bluebird = require('bluebird');
+var utils = require('./db/utils');
+var Sequelize = require('sequelize');
 
 exports.getRecipes = function (response) { //the function with the request to Yummy api
   var endPoint = "http://api.yummly.com/v1/api/recipes?_app_id=feaea292&_app_key=d3ff47a740116cf2804eae0d7ee7f00e&q=&requirePictures=true&maxResult=30&rating=4";
@@ -25,6 +29,49 @@ exports.addToLongList = function (data) { //the function that adds to the longli
 exports.deleteFromLongList = function (data) {
   
 }
+
+exports.populateDb = function () { //the function with the request to Yummy api, which sends the response to the db
+  var endPoint = "http://api.yummly.com/v1/api/recipes?_app_id=feaea292&_app_key=d3ff47a740116cf2804eae0d7ee7f00e&q=&requirePictures=true&maxResult=10&rating=4";
+  //var endPoint = "http://api.bigoven.com/recipes?pg=1&rpp=5&title_kw=lasagna&api_key=dvxlv7u3W062jQ26EHMvqNnBDWZ4u5I0";
+  request.get(endPoint, function(err,res, html) {
+    if (err) {
+      console.log("scrapingErr", err);
+    } else {
+      var dishes = JSON.parse(res.body).matches;
+      console.log("response", dishes);
+      var escapeHtml = function(str) {
+        return String(str).replace(/[&<>"'"\/]/g, function (s) {
+          return entityMap[s];
+        });
+      };
+
+      //response.json(dishes);
+      var findOrCreateArrayElem = function (array, i) {
+        if (i<array.length) {
+          db.Recipe.findOrCreate({where:{id: dishes[i].id,
+            imageUrlsBySize: escapeHtml(dishes[i].imageUrlsBySize),
+            sourceDisplayName: dishes[i].sourceDisplayName,
+            ingredients: JSON.stringify(dishes[i].ingredients),
+            smallImageUrls: dishes[i].smallImageUrls,
+            recipeName: dishes[i].recipeName,
+            totalTimeInSeconds: dishes[i].totalTimeInSeconds,
+            attrib: escapeHtml(dishes[i].attributes),
+            flavors: JSON.stringify(dishes[i].flavors),
+            rating: dishes[i].rating}})
+            .success(function(result,created){
+              console.log("res", result.id, "created", created);
+              i++;
+              findOrCreateArrayElem(array,i);
+            });
+        }
+      }
+      findOrCreateArrayElem(dishes,0);
+    }
+  });
+};
+
+
+
 
 /*Options:
 - scrape some actual ids; store them (server or database); make request to a random id;

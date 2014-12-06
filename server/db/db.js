@@ -1,4 +1,4 @@
-var path = require('path');
+/*var path = require('path');
 var Sequelize = require('sequelize');
 var orm = new Sequelize('scheming_thunder', '', '', {
   dialect: 'sqlite',
@@ -47,3 +47,4 @@ exports.Meal = Meal;
 exports.Recipe = Recipe;
 exports.Ingredient = Ingredient;
 
+*/
