@@ -12,25 +12,19 @@ angular.module('starter.services', [])
       .then(function(res) {
         return res.data;
       });
+    };
+
+ var deleteFromFavorites = function(item) {
+      return $http({
+        method: 'DELETE',
+        url: '/list',
+        data: item
+      })
     }
-
- /* // Some fake testing data
-  var friends = [
-    { id: 0, name: 'Scruff McGruff' },
-    { id: 1, name: 'G.I. Joe' },
-    { id: 2, name: 'Miss Frizzle' },
-    { id: 3, name: 'Ash Ketchum' }
-  ];*/
-
+  
   return {
-    "getFavoritesList": getFavoritesList
-    /*all: function() {
-      return friends;
-    },
-    get: function(friendId) {
-      // Simple index lookup
-      return friends[friendId];
-    }*/
+    "getFavoritesList": getFavoritesList,
+    "deleteFromFavorites": deleteFromFavorites
   }
 })
 .factory('$localstorage', ['$window', function($window) {
