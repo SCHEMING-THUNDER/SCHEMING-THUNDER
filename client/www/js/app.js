@@ -8,7 +8,7 @@
 angular.module('starter', ['ionic',
    'starter.controllers',
    'starter.controllers.recipe_detail',
-   'starter.controllers.recipes',
+   'starter.controllers.favorites',
    'starter.services',
    'ionic.contrib.ui.tinderCards',
    ])
@@ -59,7 +59,7 @@ angular.module('starter', ['ionic',
       views: {
         'tab-friends': {
           templateUrl: 'templates/tab-recipes.html',
-          controller: 'DashCtrl' //use recipe controller later when complete
+          controller: 'FavoritesCtrl'
         }
       }
     })

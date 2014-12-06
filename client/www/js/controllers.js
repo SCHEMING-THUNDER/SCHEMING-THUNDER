@@ -59,18 +59,26 @@ angular.module('starter.controllers', [])
   $scope.startExplore();
 })
 
-.controller('CardCtrl', function($scope, TDCardDelegate) {
+.controller('CardCtrl', function($scope, $http, TDCardDelegate) {
   //!!!!warning, swipe left and right doesn't seem to always register
   //maybe a library issue
 
-  $scope.cardSwipedLeft = function(index) {
+  $scope.cardSwipedLeft = function(card) {
     console.log('LEFT SWIPE');
     // $scope.addCard();
   };
-  $scope.cardSwipedRight = function(index) {
+  $scope.cardSwipedRight = function(card) {
     console.log('RIGHT SWIPE');
+    console.log(card);
     // $scope.addCard();
+    $http.post("http://mealmatch.azurewebsites.net/explore", card).success(function(data, status, headers, config) {
+        console.log('success', data, headers);
+      })
+      .error(function(data, status, headers, config) {
+      console.log('fail', data, headers);
+      }); 
   };
+
 })
 
 .filter('largerimages', function () {
