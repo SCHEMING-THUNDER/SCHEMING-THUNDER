@@ -20,7 +20,11 @@ module.exports = {
     //        1) parse the response
     //        2) serve the picture to the user as the response;
     //        3) save the dish to the dishes table in the database;
-      
+      /*db.Recipe.findAll()
+        .complete(function(err, results){
+          // optional mapping step
+          res.json(results)
+        });*/
       helpers.getRecipes(res);         
       //res.json("Hello from Thunder");
     },
