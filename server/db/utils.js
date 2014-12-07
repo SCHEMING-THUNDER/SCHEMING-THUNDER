@@ -60,7 +60,7 @@ var getAllRecipes = function(callback){
             results.push(temp);
         }
         callback(results);
-    })
+    });
 }
 
 // If user exists: returns user object
