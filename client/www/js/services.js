@@ -7,13 +7,19 @@ angular.module('starter.services', [])
   var favorites = [];
   
   var getFavoritesList = function() {
+    var self = this;
       return $http({
         method: 'GET',
         url: 'http://mealmatch.azurewebsites.net/list'
       })
       .then(function(res) {
         return res.data;
-      });
+      }).then(function(data) {
+        console.log("data", data);
+        self.favorites = data;
+        console.log(self.favorites);
+      })
+      .catch(function(er) {console.error(er);});
     };
 
  var deleteFromFavorites = function(item) {
