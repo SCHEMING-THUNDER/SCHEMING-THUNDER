@@ -54,10 +54,10 @@ angular.module('starter', ['ionic',
       }
     })
 
-    .state('tab.friends', {
-      url: '/friends',
+    .state('tab.favorites', {
+      url: '/favorites',
       views: {
-        'tab-friends': {
+        'tab-favorites': {
           templateUrl: 'templates/tab-recipes.html',
           controller: 'FavoritesCtrl'
         }

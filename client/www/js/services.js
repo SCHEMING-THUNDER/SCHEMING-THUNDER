@@ -3,6 +3,8 @@ angular.module('starter.services', [])
 
 .factory('Favorites', function($http) {
   // Might use a resource here that returns a JSON array
+
+  var favorites = [];
   
   var getFavoritesList = function() {
       return $http({
@@ -23,8 +25,9 @@ angular.module('starter.services', [])
     }
   
   return {
-    "getFavoritesList": getFavoritesList,
-    "deleteFromFavorites": deleteFromFavorites
+    favorites : favorites,
+    getFavoritesList: getFavoritesList,
+    deleteFromFavorites: deleteFromFavorites
   }
 })
 .factory('$localstorage', ['$window', function($window) {
