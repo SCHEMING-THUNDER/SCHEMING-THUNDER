@@ -23,27 +23,48 @@ var Meal = orm.define('Meal', {
 });
 
 var Recipe = orm.define('Recipe', {
-  title: {type: Sequelize.STRING, unique: true}
+  totalTimeInSeconds: Sequelize.BIGINT,
+  recipeName: {type: Sequelize.STRING, unique: true}
+});
+
+var Img = orm.define('Img', {
+  url: Sequelize.STRING
 });
 
 var Ingredient = orm.define('Ingredient', {
   name: {type: Sequelize.STRING, unique: true}
 });
 
+orm.define('IngredientsRecipes',{
+  IngredientId: Sequelize.INTEGER,
+  RecipeId: Sequelize.INTEGER
+}).sync();
+
+orm.define('MealsRecipes',{
+  MealId: Sequelize.INTEGER,
+  RecipeId: Sequelize.INTEGER
+}).sync();
+
 User.hasMany(Meal);
 Meal.belongsTo(User);
+
 Meal.hasMany(Recipe);
 Recipe.hasMany(Meal);
+
+Recipe.hasMany(Img);
+Img.belongsTo(Recipe);
+
 Recipe.hasMany(Ingredient);
 Ingredient.hasMany(Recipe);
 
 User.sync();
 Meal.sync();
 Recipe.sync();
+Img.sync();
 Ingredient.sync();
 
 exports.User = User;
 exports.Meal = Meal;
 exports.Recipe = Recipe;
+exports.Img = Img;
 exports.Ingredient = Ingredient;
-
