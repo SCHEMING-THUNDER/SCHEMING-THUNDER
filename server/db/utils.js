@@ -25,7 +25,7 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
             // Save ingredients of recipe
             db.Ingredient.findOrCreate({where: {name: curr.ingredients[i]}})
             .complete(function(err, ingred){
-                db.Recipe_Ingredients.findOrCreate({where: {IngredientId:ingred[0].dataValues.id,RecipeId:entry.id}})
+                ingred[0].addRecipes(entry)
                 .complete(function(){
                     if(i > 0){
                         recurseIngredients(i-1);
@@ -43,185 +43,25 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
   recurse(arrayOfRecipes.length - 1);
 }
 
-addListOfRecipes([
-        {
-            "attributes": {
-                "course": [
-                    "Soups"
-                ],
-                "cuisine": [
-                    "Italian"
-                ]
-            },
-            "flavors": {
-                "salty": 0.6666666666666666,
-                "sour": 0.8333333333333334,
-                "sweet": 0.6666666666666666,
-                "bitter": 0.5,
-                "meaty": 0.16666666666666666,
-                "piquant": 0.5
-            },
-            "rating": 4.6,
-            "id": "Vegetarian-Cabbage-Soup-Recipezaar",
-            "smallImageUrls": [],
-            "sourceDisplayName": "Food.com",
-            "totalTimeInSeconds": 4500,
-            "ingredients": [
-                "garlic cloves",
-                "ground pepper",
-                "diced tomatoes",
-                "celery",
-                "tomato juice",
-                "salt",
-                "cabbage",
-                "bell peppers",
-                "oregano",
-                "carrots",
-                "basil",
-                "vegetable broth",
-                "chili pepper flakes",
-                "green beans",
-                "onions",
-                "onion soup mix"
-            ],
-            "recipeName": "Vegetarian Cabbage Soup"
-        },
-        {
-            "attributes": {
-                "course": [
-                    "Soups"
-                ],
-                "cuisine": [
-                    "Moroccan",
-                    "Asian"
-                ]
-            },
-            "flavors": {
-                "salty": 0.6666666666666666,
-                "sour": 0.6666666666666666,
-                "sweet": 0.5,
-                "bitter": 0.5,
-                "meaty": 0.3333333333333333,
-                "piquant": 0.6666666666666666
-            },
-            "rating": 5,
-            "id": "Oriental-Inspired-Vegetable-Soup-Recipezaar",
-            "smallImageUrls": [],
-            "sourceDisplayName": "Food.com",
-            "totalTimeInSeconds": 24300,
-            "ingredients": [
-                "tamari",
-                "rice vinegar",
-                "bamboo shoots",
-                "lime juice",
-                "pepper",
-                "vegetable bouillon",
-                "sesame oil",
-                "salt",
-                "carrots",
-                "yellow onions",
-                "red pepper",
-                "garlic",
-                "fish",
-                "baby corn",
-                "crushed red pepper",
-                "spinach",
-                "cremini mushrooms",
-                "ginger",
-                "peanut oil",
-                "water",
-                "raw sugar",
-                "ketchup",
-                "chives",
-                "cabbage",
-                "water chestnuts",
-                "hot chili oil"
-            ],
-            "recipeName": "Oriental Inspired Vegetable Soup"
-        // },
-        // {
-        //     "attributes": {
-        //         "course": [
-        //             "Main Dishes",
-        //             "Soups"
-        //         ],
-        //         "cuisine": [
-        //             "Italian"
-        //         ]
-        //     },
-        //     "flavors": {
-        //         "salty": 0.6666666666666666,
-        //         "sour": 0.5,
-        //         "sweet": 0.5,
-        //         "bitter": 0.8333333333333334,
-        //         "meaty": 0.6666666666666666,
-        //         "piquant": 0.6666666666666666
-        //     },
-        //     "rating": 5,
-        //     "id": "Chunky-Rice-And-Bean-Soup-Recipezaar",
-        //     "smallImageUrls": [],
-        //     "sourceDisplayName": "Food.com",
-        //     "totalTimeInSeconds": 2700,
-        //     "ingredients": [
-        //         "dried oregano",
-        //         "chili powder",
-        //         "chopped celery",
-        //         "long grain rice",
-        //         "kidney beans",
-        //         "shredded cabbage",
-        //         "red pepper",
-        //         "carrot",
-        //         "onion",
-        //         "minced garlic",
-        //         "green beans",
-        //         "olive oil",
-        //         "pepper",
-        //         "vegetable stock"
-        //     ],
-        //     "recipeName": "Chunky Rice and Bean Soup"
-        // },
-        // {
-        //     "attributes": {
-        //         "course": [
-        //             "Soups",
-        //             "Appetizers"
-        //         ],
-        //         "cuisine": [
-        //             "German"
-        //         ]
-        //     },
-        //     "flavors": {
-        //         "salty": 0.16666666666666666,
-        //         "sour": 0.6666666666666666,
-        //         "sweet": 0.3333333333333333,
-        //         "bitter": 0.16666666666666666,
-        //         "meaty": 0.16666666666666666,
-        //         "piquant": 0.5
-        //     },
-        //     "rating": 5,
-        //     "id": "7-Samurai-Vegan-Soup-Recipezaar",
-        //     "smallImageUrls": [],
-        //     "sourceDisplayName": "Food.com",
-        //     "totalTimeInSeconds": 3000,
-        //     "ingredients": [
-        //         "carrots",
-        //         "cauliflower",
-        //         "water",
-        //         "onions",
-        //         "garlic cloves",
-        //         "pepper",
-        //         "potatoes",
-        //         "brussels sprouts",
-        //         "salt",
-        //         "olive oil",
-        //         "celery ribs",
-        //         "curry powder"
-        //     ],
-        //     "recipeName": "7 Samurai Vegan Soup"
-        }], function(err,item,createdBool){console.log(createdBool)});
-
-
-
+var getAllRecipes = function(callback){
+    var results =[];
+    db.Recipe.findAll({include: [db.Ingredient]}).complete(function(err,result){
+        var results = [];
+        for(var k=0; k<result.length; k++){
+            var temp = {};
+            temp.recipeName = result[k].dataValues.recipeName;
+            temp.totalTimeInSeconds = result[k].dataValues.totalTimeInSeconds;
+            temp.id = result[k].dataValues.id;
+            temp.Ingredients = [];
+            var ingreds = result[k].dataValues.Ingredients;
+            for(var i=0,length=ingreds.length; i<length; i++){
+                temp.Ingredients.push(ingreds[i].dataValues.name);
+            }
+            results.push(temp);
+        }
+        callback(results);
+    })
+}
 
 // If user exists: returns user object
 // if user does not exist: returns null

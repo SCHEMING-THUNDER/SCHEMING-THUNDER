@@ -35,10 +35,15 @@ var Ingredient = orm.define('Ingredient', {
   name: {type: Sequelize.STRING, unique: true}
 });
 
-var Recipe_Ingredients = orm.define('Recipe_Ingredients',{
-  IngredientId: {type: Sequelize.INTEGER},
-  RecipeId: {type: Sequelize.INTEGER}
-});
+orm.define('IngredientsRecipes',{
+  IngredientId: Sequelize.INTEGER,
+  RecipeId: Sequelize.INTEGER
+}).sync();
+
+orm.define('MealsRecipes',{
+  MealId: Sequelize.INTEGER,
+  RecipeId: Sequelize.INTEGER
+}).sync();
 
 User.hasMany(Meal);
 Meal.belongsTo(User);
@@ -49,20 +54,17 @@ Recipe.hasMany(Meal);
 Recipe.hasMany(Img);
 Img.belongsTo(Recipe);
 
-Recipe.hasMany(Ingredient, {as:'Ingredients', through:'Recipe_Ingredients'});
-Ingredient.hasMany(Recipe, {as:'Recipes', through:'Recipe_Ingredients'});
+Recipe.hasMany(Ingredient);
+Ingredient.hasMany(Recipe);
 
 User.sync();
 Meal.sync();
 Recipe.sync();
 Img.sync();
 Ingredient.sync();
-Recipe_Ingredients.sync();
 
 exports.User = User;
 exports.Meal = Meal;
 exports.Recipe = Recipe;
 exports.Img = Img;
 exports.Ingredient = Ingredient;
-exports.Recipe_Ingredients = Recipe_Ingredients;
-
