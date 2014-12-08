@@ -7,7 +7,10 @@ for (var route in controllers) {
     .post(controllers[route].post);
 }
 
-router.route("/list")
+/*router.route("/list")
   .delete(controllers.list.todelete);
+// This will be used for deletion
+
+  */
 
 module.exports = router;

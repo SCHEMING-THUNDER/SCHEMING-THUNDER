@@ -32,7 +32,9 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
                     } else if (index > 0){
                         recurse(index-1);
                     } else {
+                      if (callback) {
                         callback(errLog,listSaved,createdBoolList);
+                      }
                     }
                 });
             });
@@ -53,6 +55,7 @@ var getAllRecipes = function(callback){
         for(var k=0; k<result.length; k++){
             var temp = {};
             temp.recipeName = result[k].dataValues.recipeName;
+            temp.smallImageUrls = result[k].dataValues.smallImageUrls;
             temp.totalTimeInSeconds = result[k].dataValues.totalTimeInSeconds;
             temp.id = result[k].dataValues.id;
             temp.Ingredients = [];
@@ -72,10 +75,12 @@ var getAllRecipes = function(callback){
 var findUser = function(username, password, callback){
   db.User.find({where: {username: username, password: password}})
   .complete(function(err, result){
+    console.log("user search result", result);
     if (result === null) {
       callback(err, result);
     } else {
-      callback(err, result.dataValues);
+      console.log("user found");
+    //  callback(err, result.dataValues);
     }
   });
 }
@@ -84,6 +89,7 @@ var findUser = function(username, password, callback){
 // Ouput: If callback provided, invoke callback(err, user)
 // user will be an object with user data
 var addUser = function(username, password, callback){
+  console.log("we are adding a user");
   db.User.create({
     username: username,
     password: password
@@ -106,9 +112,9 @@ var addUser = function(username, password, callback){
 // Output: invokes callback(err, results)
 // results will be an array of recipe objects
 var getUserFavorites = function(user, callback){
-  db.Favorite.find({where: {UserId: user.id}})
+  db.Favorite.find({where: {UserId: user.dataValues.id}})
   .complete(function(err,fav){
-    console.log(fav);
+//    console.log(fav);
     fav.getRecipes().complete(function(err,recipes){
       // Format results
       if (recipes) {
@@ -137,11 +143,13 @@ var getUserFavorites = function(user, callback){
 // Input: user object , recipe object, and an optional callback
 // Output: if provided a callback, invoke callback(err, results)
 var addRecipeToUserFavorites = function(user, recipe, callback){
-  db.Favorite.find({where: {UserId: user.id}})
+  db.Favorite.find({where: {UserId: user.dataValues.id}})
+  //db.User.find({where:{username: usId}})
   .complete(function(err,fav){
+   // console.log("fav", fav);
     db.Recipe.find({where: {id: recipe.id}})
     .complete(function(err,recipeEntry){
-      fav.addRecipes(recipeEntry).complete(function(err,results){
+      fav.addRecipe(recipeEntry).complete(function(err,results){
         if(callback){
           callback(err, results);
         }

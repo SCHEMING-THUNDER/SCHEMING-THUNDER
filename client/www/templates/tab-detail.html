@@ -9,17 +9,17 @@
   </ion-content>
 </ion-view> -->
 
-<h5>hello</h5>
-
 <ion-view title="Recipe Detail">
   <ion-content has-header="true" padding="true">
   	<div class="list card">
 
   	  <div class="item item-avatar">
-  	    <img ng-src="{{recipe.imageUrlsBySize.90}}">
+  	    <img ng-src="{{recipe.smallImageUrls}}">
   	    <h2>{{recipe.recipeName}}</h2>
   	    <p>{{recipe.attributes.course[0]}}</p>
   	  </div>
+
+  	    <bars data="{{recipe.flavors}}"></bars>
 
   	  <div class="item item-body">
   	  	<div class="list">
@@ -43,6 +43,7 @@
 
   	  	</div>
   	    <img class="full-image" ng-src="{{recipe.imageUrlsBySize.90| largerimages}}">
+        
   	    <p>
   	      <a href="#" class="subdued">1 Like</a>
   	      <a href="#" class="subdued">5 Comments</a>

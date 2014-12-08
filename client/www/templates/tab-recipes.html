@@ -4,7 +4,7 @@
 
     <div ng-repeat="recipe in favorites">
 	  <a class="item item-thumbnail-left" href="#/tab/recipe/{{$index}}">
-		<img ng-src="{{recipe.imageUrlsBySize.90}}">
+		<img ng-src="{{recipe.smallImageUrls}}">
 	    <h2>{{recipe.attributes.course[0]}}</h2>
 	    <p>{{recipe.recipeName}}</p>
 	    <!-- <a>delete</a>	 -->
