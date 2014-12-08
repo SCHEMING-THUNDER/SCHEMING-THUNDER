@@ -1,4 +1,5 @@
 var db = require('./db/db');
+var util = require('./');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
 var helpers = require('./helpers.js')
 
@@ -25,8 +26,20 @@ module.exports = {
           // optional mapping step
           res.json(results)
         });*/
-      helpers.getRecipes(res);         
+      // helpers.getRecipes(res);         
       //res.json("Hello from Thunder");
+      util.getAllRecipes(function(err,results) {
+        if (err) {
+          console.log("error retrieving:", err);
+        } else {
+          console.log("retrieval results:", results);
+          res.json(results);
+        } 
+      });
+      helpers.getRecipes(util.addListOfRecipes);
+      util.addUser("fakeUser", "fakePass", function (err) {
+        console.log("error when adding user");
+      });
     },
     post: function (req, res) {
       helpers.addToLongList(req.body);

@@ -1,6 +1,6 @@
 var request = require('request');
 
-exports.getRecipes = function (response) { //the function with the request to Yummy api
+exports.getRecipes = function (callback) { //the function with the request to Yummy api
   var endPoint = "http://api.yummly.com/v1/api/recipes?_app_id=feaea292&_app_key=d3ff47a740116cf2804eae0d7ee7f00e&q=&requirePictures=true&maxResult=30&rating=4";
   //var endPoint = "http://api.bigoven.com/recipes?pg=1&rpp=5&title_kw=lasagna&api_key=dvxlv7u3W062jQ26EHMvqNnBDWZ4u5I0";
   request.get(endPoint, function(err,res, html) {
@@ -9,7 +9,7 @@ exports.getRecipes = function (response) { //the function with the request to Yu
     } else {
       var dishes = JSON.parse(res.body).matches;
       console.log("response", dishes);
-      response.json(dishes);
+      callback(dishes);
     }
   });
 };
