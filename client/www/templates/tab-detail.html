@@ -19,6 +19,7 @@
   	    <p>{{recipe.attributes.course[0]}}</p>
   	  </div>
 
+  	    <bars data="{{recipe.flavors}}"></bars>
   	  <div class="item item-body">
   	  	<div class="list">
 
@@ -41,6 +42,8 @@
 
   	  	</div>
   	    <img class="full-image" ng-src="{{recipe.imageUrlsBySize.90| largerimages}}">
+
+  	    
   	    <p>
   	      <a href="#" class="subdued">1 Like</a>
   	      <a href="#" class="subdued">5 Comments</a>
