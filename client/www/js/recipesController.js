@@ -1,16 +1,12 @@
 angular.module('starter.controllers.favorites', [])
 
 .controller('FavoritesCtrl', function($scope, Favorites) {
-  $scope.favorites = [];
-  Favorites.getFavoritesList()
-    .then(function(data) {
-      console.log("data", data);
-      $scope.favorites = data;
-    })
-    .catch(function(er) {console.error(er);});
+  angular.extend($scope, Favorites);
+  //$scope.favorites = [];
+  $scope.getFavoritesList();
   
   $scope.deleteCard = function(card) {
-    Favorites.deleteFromFavorites(card);
+    $scope.deleteFromFavorites(card);
   };
 
 })

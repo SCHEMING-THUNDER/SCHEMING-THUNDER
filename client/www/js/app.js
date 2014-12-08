@@ -54,21 +54,21 @@ angular.module('starter', ['ionic',
       }
     })
 
-    .state('tab.friends', {
-      url: '/friends',
+    .state('tab.favorites', {
+      url: '/favorites',
       views: {
-        'tab-friends': {
+        'tab-favorites': {
           templateUrl: 'templates/tab-recipes.html',
           controller: 'FavoritesCtrl'
         }
       }
     })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
+    .state('tab.recipe-detail', {
+      url: '/recipe/:friendId',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        'tab-favorites': {
+          templateUrl: 'templates/tab-detail.html',
+          controller: 'RecipeDetailCtrl'
         }
       }
     })
