@@ -14,7 +14,22 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
   var recurse = function(index){
     var curr = arrayOfRecipes[index];
 
-    db.Recipe.findOrCreate({where: {recipeName: curr.recipeName, totalTimeInSeconds: curr.totalTimeInSeconds, smallImageUrls: curr.smallImageUrls[0]}})
+    db.Recipe.findOrCreate({where: {recipeName: curr.recipeName,
+      totalTimeInSeconds: curr.totalTimeInSeconds,
+      smallImageUrls: curr.smallImageUrls[0] || '',
+
+      // Defaults to 0 if not available
+      salty: curr.flavors.salty || 0,
+      sour: curr.flavors.sour || 0,
+      sweet: curr.flavors.sweet || 0,
+      bitter: curr.flavors.bitter || 0,
+      meaty: curr.flavors.meaty || 0,
+      piquant: curr.flavors.piquant || 0,
+
+      // Small arrays stored as strings w/ , delimiter
+      course: curr.attributes.course ? curr.attributes.course.join(',') : '',
+      cuisine: curr.attributes.cuisine ? curr.attributes.cuisine.join(',') : ''
+    }})
     .complete(function(err, entry, createdBool){
       
       errLog.push(err);
@@ -58,6 +73,21 @@ var getAllRecipes = function(callback){
             temp.smallImageUrls = result[k].dataValues.smallImageUrls;
             temp.totalTimeInSeconds = result[k].dataValues.totalTimeInSeconds;
             temp.id = result[k].dataValues.id;
+
+            // Grab the FLAVORS!
+            temp.flavors = {};
+            temp.flavors.salty = result[k].dataValues.salty;
+            temp.flavors.sour = result[k].dataValues.sour;
+            temp.flavors.sweet = result[k].dataValues.sweet;
+            temp.flavors.bitter = result[k].dataValues.bitter;
+            temp.flavors.meaty = result[k].dataValues.meaty;
+            temp.flavors.piquant = result[k].dataValues.piquant;
+
+            // Grab & format the attributes {course, cuisine}
+            temp.attributes = {};
+            temp.attributes.course = result[k].dataValues.course.split(',');
+            temp.attributes.cuisine = result[k].dataValues.cuisine.split(',');
+
             temp.Ingredients = [];
             var ingreds = result[k].dataValues.Ingredients;
             for(var i=0,length=ingreds.length; i<length; i++){
@@ -122,6 +152,27 @@ var getUserFavorites = function(user, callback){
         var start = recipes.length-1;
         var recurse = function(index){
           results[index] = recipes[index].dataValues;
+
+          // Grab the FLAVORS! & Formatting to expected output
+          results[index].flavors = {};
+          results[index].flavors.salty = results[index].salty;
+          results[index].flavors.sour = results[index].sour;
+          results[index].flavors.sweet = results[index].sweet;
+          results[index].flavors.bitter = results[index].bitter;
+          results[index].flavors.meaty = results[index].meaty;
+          results[index].flavors.piquant = results[index].piquant;
+          delete results[index].salty;
+          delete results[index].sour;
+          delete results[index].sweet;
+          delete results[index].bitter;
+          delete results[index].meaty;
+          delete results[index].piquant;
+
+          // Grab & format the attributes {course, cuisine}
+          results[index].attributes = {};
+          results[index].attributes.course = results[index].course.split(',');
+          results[index].attributes.cuisine = results[index].cuisine.split(',');
+
           results[index].ingredients = [];
           recipes[index].getIngredients().complete(function(err, ingreds){
             for(var i=0; i<ingreds.length; i++){
