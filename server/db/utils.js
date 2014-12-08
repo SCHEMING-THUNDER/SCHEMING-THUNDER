@@ -14,7 +14,7 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
   var recurse = function(index){
     var curr = arrayOfRecipes[index];
 
-    db.Recipe.findOrCreate({where: {recipeName: curr.recipeName, totalTimeInSeconds: curr.totalTimeInSeconds}})
+    db.Recipe.findOrCreate({where: {recipeName: curr.recipeName, totalTimeInSeconds: curr.totalTimeInSeconds, smallImageUrls: curr.smallImageUrls[0]}})
     .complete(function(err, entry, createdBool){
       
       errLog.push(err);

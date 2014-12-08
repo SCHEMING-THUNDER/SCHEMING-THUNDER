@@ -28,7 +28,8 @@ var Meal = orm.define('Meal', {
 
 var Recipe = orm.define('Recipe', {
   totalTimeInSeconds: Sequelize.BIGINT,
-  recipeName: {type: Sequelize.STRING, unique: true}
+  recipeName: {type: Sequelize.STRING, unique: true},
+  smallImageUrls: Sequelize.STRING
 });
 
 var Img = orm.define('Img', {
