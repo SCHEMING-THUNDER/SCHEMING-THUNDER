@@ -28,7 +28,10 @@ angular.module('starter.controllers.recipe_detail', [])
            }
            console.log(data);
            chart = d3.select('#chart')
-             .append("div").attr("class", "chart")
+             .append("div").attr("class", function(d) {
+                console.log(d);
+                return "chart"
+             })
              .selectAll('div')
              .data(data).enter()
              .append("div")
