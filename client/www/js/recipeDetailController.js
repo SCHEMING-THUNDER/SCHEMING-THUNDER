@@ -14,7 +14,17 @@ angular.module('starter.controllers.recipe_detail', [])
            var flavors = JSON.parse(attrs.data);
            var data = [];
            for(var key in flavors){
-           	data.push(Math.floor(flavors[key]*100));
+           	var percent = Math.floor(flavors[key]*100);
+
+           	//if percent is less than 15, default to 15.
+           	//this is so that there is room for text.
+
+           	if(percent < 15){percent = 15}
+
+           	//scale everything down so that max is 90.
+
+           	percent = percent*0.9;
+           	data.push([key, percent]);
            }
            console.log(data);
            chart = d3.select('#chart')
@@ -23,8 +33,8 @@ angular.module('starter.controllers.recipe_detail', [])
              .data(data).enter()
              .append("div")
              .transition().ease("elastic")
-             .style("width", function(d) { return d + "%"; })
-             .text(function(d) { return d + "%"; });
+             .style("width", function(d) { return d[1] + "%"; })
+             .text(function(d) { return d[0]; });
          } 
       };
    });

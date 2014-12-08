@@ -90,3 +90,8 @@ td-card img {
   color: white;
   box-shadow: 2px 2px 2px #666;
 }
+
+.chart div{
+  text-align:left;
+  font-weight: bolder;
+}
