@@ -3,11 +3,11 @@
   <div class="list">
 
     <div ng-repeat="recipe in favorites">
-	  <a class="item item-thumbnail-left" href="#/tab/friend/{{friend.id}}">
+	  <a class="item item-thumbnail-left" href="#/tab/recipe/{{$index}}">
 		<img ng-src="{{recipe.imageUrlsBySize.90}}">
 	    <h2>{{recipe.attributes.course[0]}}</h2>
 	    <p>{{recipe.recipeName}}</p>
-	    <a>delete</a>
+	    <!-- <a>delete</a>	 -->
 	    <!-- <i class = 'ion-close'> -->
 	  </a>
     </div>

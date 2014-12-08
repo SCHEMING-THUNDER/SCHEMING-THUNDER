@@ -63,12 +63,12 @@ angular.module('starter', ['ionic',
         }
       }
     })
-    .state('tab.friend-detail', {
-      url: '/friend/:friendId',
+    .state('tab.recipe-detail', {
+      url: '/recipe/:friendId',
       views: {
-        'tab-friends': {
-          templateUrl: 'templates/friend-detail.html',
-          controller: 'FriendDetailCtrl'
+        'tab-favorites': {
+          templateUrl: 'templates/tab-detail.html',
+          controller: 'RecipeDetailCtrl'
         }
       }
     })

@@ -1,5 +1,6 @@
 angular.module('starter.controllers.recipe_detail', [])
 
-.controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-  $scope.friend = Friends.get($stateParams.friendId);
+.controller('RecipeDetailCtrl', function($scope, $stateParams, Favorites) {
+  console.log($stateParams.friendId);
+  //$scope.recipe = Favorites.get($stateParams.friendId);
 })
