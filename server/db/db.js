@@ -18,13 +18,18 @@ var User = orm.define('User', {
   password: Sequelize.STRING,
 });
 
+// User's Favorite's table
+var Favorite = orm.define('Favorite', {
+});
+
 var Meal = orm.define('Meal', {
   title: Sequelize.STRING,
 });
 
 var Recipe = orm.define('Recipe', {
   totalTimeInSeconds: Sequelize.BIGINT,
-  recipeName: {type: Sequelize.STRING, unique: true}
+  recipeName: {type: Sequelize.STRING, unique: true},
+  smallImageUrls: Sequelize.STRING
 });
 
 var Img = orm.define('Img', {
@@ -35,6 +40,9 @@ var Ingredient = orm.define('Ingredient', {
   name: {type: Sequelize.STRING, unique: true}
 });
 
+//****************************************
+//*******JOIN TABLES**********************
+//****************************************
 orm.define('IngredientsRecipes',{
   IngredientId: Sequelize.INTEGER,
   RecipeId: Sequelize.INTEGER
@@ -45,8 +53,22 @@ orm.define('MealsRecipes',{
   RecipeId: Sequelize.INTEGER
 }).sync();
 
+orm.define('FavoritesRecipes',{
+  FavoriteId: Sequelize.INTEGER,
+  RecipeId: Sequelize.INTEGER
+}).sync();
+
+//****************************************
+//*******ASSOCIATIONS*********************
+//****************************************
 User.hasMany(Meal);
 Meal.belongsTo(User);
+
+Favorite.belongsTo(User);
+User.belongsTo(Favorite);
+
+Recipe.hasMany(Favorite);
+Favorite.hasMany(Recipe);
 
 Meal.hasMany(Recipe);
 Recipe.hasMany(Meal);
@@ -57,13 +79,17 @@ Img.belongsTo(Recipe);
 Recipe.hasMany(Ingredient);
 Ingredient.hasMany(Recipe);
 
+
+
 User.sync();
+Favorite.sync();
 Meal.sync();
 Recipe.sync();
 Img.sync();
 Ingredient.sync();
 
 exports.User = User;
+exports.Favorite = Favorite;
 exports.Meal = Meal;
 exports.Recipe = Recipe;
 exports.Img = Img;
