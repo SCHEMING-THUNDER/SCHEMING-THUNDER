@@ -77,7 +77,7 @@ module.exports = {
     post: function (req, res) {
       // never happens, not applicable;
     },
-    todelete: function (req, res) { // The user wants to delete a recipe
+    /*todelete: function (req, res) { // The user wants to delete a recipe
       db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
         complete(function(err,user) {
           if (err) {
@@ -99,6 +99,6 @@ module.exports = {
               })            
           }
         });
-    }
+    }*/
   }
 }
