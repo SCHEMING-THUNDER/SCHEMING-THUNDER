@@ -5,16 +5,9 @@ var helpers = require('./helpers.js')
 
 
 module.exports = {
-  /*'/': {
-    get: function (req, res) {
-      res.redirect('/explore');
-    },
-    post: function (req, res) {
-
-    }
-  }, */
   explore: {
-    get: function (req, res) {
+    get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
+      //Step 1): get recipes from the db;
       util.getAllRecipes(function(err,results) {
         if (err) {
           console.log("error retrieving:", err);
@@ -23,7 +16,10 @@ module.exports = {
           res.json(results);
         } 
       });
+      //Step 2): populate db with new recipes;
       helpers.getRecipes(util.addListOfRecipes);
+      //Step 3): temporary. Since we do not have a sign-up page, add at least one 
+      //fake user to the database.
       util.findUser("fakeUser", "fakePass", function (err, results) {
           
           util.addUser("fakeUser", "fakePass", function (err, results) {
@@ -34,19 +30,19 @@ module.exports = {
   
       });
     },
-    post: function (req, res) {
-      db.User.find({where: {username: "fakeUser"}}).
+    post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
+      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
         complete(function(err,user) {
           if (err) {
             console.log("userSearchErrorList");
           } else {
-            db.Recipe.find({where: {recipeName: req.body.recipeName}}).
+            db.Recipe.find({where: {recipeName: req.body.recipeName}}). //find the recipe to use as an argument to the helper function
               complete(function(err, recipeEntry) {
                 if (err) {
                   console.log("recipeNotFound");
                 } else {
                   console.log("recipeEntry", recipeEntry);
-                  util.addRecipeToUserFavorites(user, recipeEntry, function (err, results) {
+                  util.addRecipeToUserFavorites(user, recipeEntry, function (err, results) { //add the recipe to the join table of user's favorite foods
                   if (err) {
                     console.log("Error when adding to favs:", err);
                   }
@@ -58,30 +54,21 @@ module.exports = {
         });
     }    
   },
-      // helpers.addToLongList(req.body);
-      // console.log("list", helpers.longList);
-      //This means the user decided whether he likes the dish or not;
-      // if he likes it, add the dish to the longlist object.
-      // save the information to the "join" table of the database;
-      // do the same thing that you did with the get request;
-      // alternatively, create the "longlist object" at the client side;      
-  
-
+            
   list: {
-    get: function (req, res) { // This means the user wants to see the longlist;
-      // serve the longlist object for this session;
-      db.User.find({where: {username: "fakeUser"}}).
+    get: function (req, res) { // This means the user wants to see the list of his favorite dishes;
+      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
         complete(function(err,user) {
           if (err) {
             console.log("userSearchErrorListOnGet");
           } else {
        //     console.log("userGetList", user);
-            util.getUserFavorites(user, function(err, recipes) {
+            util.getUserFavorites(user, function(err, recipes) { //get all the favorites for this user
               if (err) {
                 console.log("Error retrieving favorites", err);
               } else {
                 console.log("Userfavorites", recipes);
-                res.json(recipes);
+                res.json(recipes); //send the array of recipes to the client
               }  
             });
           }
@@ -91,14 +78,27 @@ module.exports = {
       // never happens, not applicable;
     },
     todelete: function (req, res) { // The user wants to delete a recipe
-      // delete the recipe from the longlist, then serve the longlist;
-      util.removeRecipeFromUserFavorites("fakeUser", req.body.id, function(err) {
-        if (err) {
-          console.log("deletion error,", err);
-        }
-      })
-      // helpers.deleteFromLongList(req.body);
-      // res.json(helpers.longList); - might not need it but call get from the client instead;
+      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
+        complete(function(err,user) {
+          if (err) {
+            console.log("userSearchErrorDelete");
+          } else {
+            db.Recipe.find({where: {recipeName: req.body.recipeName}}). //find the recipe to use as an argument to the helper function
+              complete(function(err, recipeEntry) {
+                if (err) {
+                  console.log("recipeNotFound");
+                } else {
+                  console.log("recipeEntry", recipeEntry);
+                  util.removeRecipeFromUserFavorites(user, recipeEntry, function (err) { //delete the recipe
+                  if (err) {
+                    console.log("Deletion error:", err);
+                  }
+                  res.sendStatus(200);      
+                  });  
+                }
+              })            
+          }
+        });
     }
   }
 }

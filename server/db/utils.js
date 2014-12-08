@@ -75,11 +75,12 @@ var getAllRecipes = function(callback){
 var findUser = function(username, password, callback){
   db.User.find({where: {username: username, password: password}})
   .complete(function(err, result){
-    console.log("search result, result");
+    console.log("user search result", result);
     if (result === null) {
       callback(err, result);
     } else {
-      callback(err, result.dataValues);
+      console.log("user found");
+    //  callback(err, result.dataValues);
     }
   });
 }
@@ -160,8 +161,8 @@ var addRecipeToUserFavorites = function(user, recipe, callback){
 // Input: user object, recipe object, and an optional callback
 // Output: if provided a callback, invoke callback(err, removed)
 // if successful, removed === [1]
-var removeRecipeFromUserFavorites = function(usId, recipe, callback){
- db.Favorite.find({where: {UserId: usId}})
+var removeRecipeFromUserFavorites = function(user, recipe, callback){
+ db.Favorite.find({where: {UserId: user.id}})
  .complete(function(err,fav){
    db.Recipe.find({where: {id: recipe.id}})
    .complete(function(err,recipeEntry){
