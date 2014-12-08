@@ -42,6 +42,14 @@ module.exports = {
       });
     },
     post: function (req, res) {
+      util.findUser("fakeUser", "fakePass", function (err,user) {
+        if (err) {
+          console.log("user not found")
+        } else {
+          
+        }
+      })
+      util.addRecipeToUserFavorites = function(user, recipe, callback)
       helpers.addToLongList(req.body);
       console.log("list", helpers.longList);
       res.sendStatus(201);
