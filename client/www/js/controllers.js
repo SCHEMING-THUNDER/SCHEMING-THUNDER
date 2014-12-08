@@ -36,9 +36,9 @@ angular.module('starter.controllers', [])
   $scope.startExplore = function() {
     console.log($localstorage.getObject('temp'));
 
-    if(Object.keys($localstorage.getObject('temp')).length ===0){
+   // if(Object.keys($localstorage.getObject('temp')).length ===0){
       console.log('making a http request');
-      $http.get("http://mealmatch.azurewebsites.net/explore").success(function(data, status, headers, config) {
+      $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
         $scope.cards = Array.prototype.slice.call(cardTypes, 1,4);
@@ -47,13 +47,13 @@ angular.module('starter.controllers', [])
       .error(function(data, status, headers, config) {
       console.log('fail', data);
       }); 
-    } else{ //currently pulling from local storage data to avoid overusing api
+    /*} else{ //currently pulling from local storage data to avoid overusing api
 
       //make a copy of local storage so that local storage remains persistant
       cardTypes = Array.prototype.slice.call($localstorage.getObject('temp'));
       //load 1 cards for view
       $scope.cards = Array.prototype.splice.call(cardTypes, 1,4);
-    }
+    }*/
   };
 
   $scope.startExplore();
@@ -71,7 +71,7 @@ angular.module('starter.controllers', [])
     console.log('RIGHT SWIPE');
     console.log(card);
     // $scope.addCard();
-    $http.post("http://mealmatch.azurewebsites.net/explore", card).success(function(data, status, headers, config) {
+    $http.post("http://localhost:3000/explore", card).success(function(data, status, headers, config) {
         console.log('success', data, headers);
       })
       .error(function(data, status, headers, config) {

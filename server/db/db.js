@@ -32,9 +32,9 @@ var Recipe = orm.define('Recipe', {
   smallImageUrls: Sequelize.STRING
 });
 
-var Img = orm.define('Img', {
+/*var Img = orm.define('Img', {
   url: Sequelize.STRING
-});
+});*/
 
 var Ingredient = orm.define('Ingredient', {
   name: {type: Sequelize.STRING, unique: true}
@@ -73,8 +73,8 @@ Favorite.hasMany(Recipe);
 Meal.hasMany(Recipe);
 Recipe.hasMany(Meal);
 
-Recipe.hasMany(Img);
-Img.belongsTo(Recipe);
+/*Recipe.hasMany(Img);
+Img.belongsTo(Recipe);*/
 
 Recipe.hasMany(Ingredient);
 Ingredient.hasMany(Recipe);
@@ -85,12 +85,12 @@ User.sync();
 Favorite.sync();
 Meal.sync();
 Recipe.sync();
-Img.sync();
+//Img.sync();
 Ingredient.sync();
 
 exports.User = User;
 exports.Favorite = Favorite;
 exports.Meal = Meal;
 exports.Recipe = Recipe;
-exports.Img = Img;
+//exports.Img = Img;
 exports.Ingredient = Ingredient;

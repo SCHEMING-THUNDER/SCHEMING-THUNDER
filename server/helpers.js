@@ -9,7 +9,11 @@ exports.getRecipes = function (callback) { //the function with the request to Yu
     } else {
       var dishes = JSON.parse(res.body).matches;
       console.log("response", dishes);
-      callback(dishes);
+      callback(dishes, function(err) {
+        if (err) {
+          console.log("errror adding recipes to db", err);
+        }
+      });
     }
   });
 };

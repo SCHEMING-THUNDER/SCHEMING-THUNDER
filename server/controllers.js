@@ -1,5 +1,5 @@
 var db = require('./db/db');
-var util = require('./');
+var util = require('./db/utils');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
 var helpers = require('./helpers.js')
 
@@ -14,20 +14,7 @@ module.exports = {
     }
   }, */
   explore: {
-    get: function (req, res) {   //This means the user wants to get a new picture;
-    // have to send an api request to Yummly;
-    //   if Yummly responds with an error, send a request to our database
-    //     when receive the response (from Yummly/database):
-    //        1) parse the response
-    //        2) serve the picture to the user as the response;
-    //        3) save the dish to the dishes table in the database;
-      /*db.Recipe.findAll()
-        .complete(function(err, results){
-          // optional mapping step
-          res.json(results)
-        });*/
-      // helpers.getRecipes(res);         
-      //res.json("Hello from Thunder");
+    get: function (req, res) {
       util.getAllRecipes(function(err,results) {
         if (err) {
           console.log("error retrieving:", err);
@@ -37,43 +24,81 @@ module.exports = {
         } 
       });
       helpers.getRecipes(util.addListOfRecipes);
-      util.addUser("fakeUser", "fakePass", function (err) {
-        console.log("error when adding user");
+      util.findUser("fakeUser", "fakePass", function (err, results) {
+          
+          util.addUser("fakeUser", "fakePass", function (err, results) {
+            if (err) {
+              console.log("error adding user", err);
+            }
+          })
+  
       });
     },
     post: function (req, res) {
-      util.findUser("fakeUser", "fakePass", function (err,user) {
-        if (err) {
-          console.log("user not found")
-        } else {
-          
-        }
-      })
-      util.addRecipeToUserFavorites = function(user, recipe, callback)
-      helpers.addToLongList(req.body);
-      console.log("list", helpers.longList);
-      res.sendStatus(201);
-
+      db.User.find({where: {username: "fakeUser"}}).
+        complete(function(err,user) {
+          if (err) {
+            console.log("userSearchErrorList");
+          } else {
+            db.Recipe.find({where: {recipeName: req.body.recipeName}}).
+              complete(function(err, recipeEntry) {
+                if (err) {
+                  console.log("recipeNotFound");
+                } else {
+                  console.log("recipeEntry", recipeEntry);
+                  util.addRecipeToUserFavorites(user, recipeEntry, function (err, results) {
+                  if (err) {
+                    console.log("Error when adding to favs:", err);
+                  }
+                  res.sendStatus(201);      
+                  });  
+                }
+              })            
+          }
+        });
+    }    
+  },
+      // helpers.addToLongList(req.body);
+      // console.log("list", helpers.longList);
       //This means the user decided whether he likes the dish or not;
       // if he likes it, add the dish to the longlist object.
       // save the information to the "join" table of the database;
       // do the same thing that you did with the get request;
       // alternatively, create the "longlist object" at the client side;      
-    }
-  },
+  
 
   list: {
     get: function (req, res) { // This means the user wants to see the longlist;
       // serve the longlist object for this session;
-      res.json(helpers.longList);
+      db.User.find({where: {username: "fakeUser"}}).
+        complete(function(err,user) {
+          if (err) {
+            console.log("userSearchErrorListOnGet");
+          } else {
+       //     console.log("userGetList", user);
+            util.getUserFavorites(user, function(err, recipes) {
+              if (err) {
+                console.log("Error retrieving favorites", err);
+              } else {
+                console.log("Userfavorites", recipes);
+                res.json(recipes);
+              }  
+            });
+          }
+        });    
     },
     post: function (req, res) {
       // never happens, not applicable;
     },
     todelete: function (req, res) { // The user wants to delete a recipe
       // delete the recipe from the longlist, then serve the longlist;
-      helpers.deleteFromLongList(req.body);
+      util.removeRecipeFromUserFavorites("fakeUser", req.body.id, function(err) {
+        if (err) {
+          console.log("deletion error,", err);
+        }
+      })
+      // helpers.deleteFromLongList(req.body);
       // res.json(helpers.longList); - might not need it but call get from the client instead;
     }
   }
-};
+}
