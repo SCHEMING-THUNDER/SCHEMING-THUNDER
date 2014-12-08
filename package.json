@@ -22,7 +22,7 @@
     "underscore": "^1.7.0"
   },
   "scripts": {
-    "prestart": "npm install",
+    "prestart": "npm install sqlite3",
     "start": "node server/server.js"
   }
 }
