@@ -29,7 +29,18 @@ var Meal = orm.define('Meal', {
 var Recipe = orm.define('Recipe', {
   totalTimeInSeconds: Sequelize.BIGINT,
   recipeName: {type: Sequelize.STRING, unique: true},
-  smallImageUrls: Sequelize.STRING
+  smallImageUrls: Sequelize.STRING,
+  
+  salty: Sequelize.FLOAT,
+  sour: Sequelize.FLOAT,
+  sweet: Sequelize.FLOAT,
+  bitter: Sequelize.FLOAT,
+  meaty: Sequelize.FLOAT,
+  piquant: Sequelize.FLOAT,
+
+  course: Sequelize.STRING,
+
+  cuisine: Sequelize.STRING
 });
 
 /*var Img = orm.define('Img', {
