@@ -16,24 +16,30 @@ angular.module('starter.services', [])
         return res.data;
       }).then(function(data) {
         console.log("data", data);
-        self.favorites = data;
-        console.log(self.favorites);
+        favorites = data;
+        self.favorites = favorites;
+        console.log(favorites);
       })
       .catch(function(er) {console.error(er);});
     };
 
- var deleteFromFavorites = function(item) {
+  var deleteFromFavorites = function(item) {
       return $http({
         method: 'DELETE',
         url: '/list',
         data: item
       })
     }
+
+  var getData = function() {
+    return favorites;
+  };
   
   return {
-    favorites : favorites,
+    // favorites : favorites,
     getFavoritesList: getFavoritesList,
-    deleteFromFavorites: deleteFromFavorites
+    deleteFromFavorites: deleteFromFavorites,
+    getData: getData
   }
 })
 .factory('$localstorage', ['$window', function($window) {
