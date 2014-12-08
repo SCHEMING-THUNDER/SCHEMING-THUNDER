@@ -26,13 +26,16 @@ angular.module('starter.controllers.recipe_detail', [])
            	percent = percent*0.9;
            	data.push([key, percent]);
            }
-           console.log(data);
            chart = d3.select('#chart')
              .append("div").attr("class", "chart")
              .selectAll('div')
              .data(data).enter()
              .append("div")
              .transition().ease("elastic")
+             .attr("class", function(d) {
+              console.log(d);
+              return d[0];
+             })
              .style("width", function(d) { return d[1] + "%"; })
              .text(function(d) { return d[0]; });
          } 
