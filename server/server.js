@@ -14,6 +14,7 @@ var router = require('./routes.js');
 // var util = require('./db/utils');
 // ***************************************************
 
+
 console.log("running", process.env.nodeEnv);
 
 //Port
