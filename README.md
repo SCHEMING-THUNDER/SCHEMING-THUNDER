@@ -2,7 +2,7 @@
 SCHEMING-THUNDER
 ================
 
-Meal match
+Meal Match
 
 ## Team
 
@@ -28,16 +28,20 @@ Meal Match is the app that helps users to discover new dishes and make personal 
 
 Meal match is a native mobile app. The user interacts with two main tabs: Explore and Favorites.
 
-First, the user sees a stack of cards on the Explore tab. Each card contains a picture of a dish and its name. The user can swipe cards to the right and to the left. If the user swipes the card to the right, it will be added to the favorites list. If the user swipes the card to the left, it is not added to any list.
+First, the user sees a stack of cards on the Explore tab. Each card contains a picture of a dish and its name. The user can swipe cards to the right or to the left. If the user swipes the card to the right, it will be added to the favorites list. If the user swipes the card to the left, it is not added to any list.
 
-After swiping cards on the Explore tab, the user can proceed to the Favorites tab. On this tab, the user sees the list of their favorite dishes. The user can click on a dish to see the detailed information about it. The information includes preparation time, ingredients, and, most importantly, a graph representing the dish flavors (salty, sour, sweet, bitter, meaty, piquant).
+After swiping cards on the Explore tab, the user can proceed to the Favorites tab. On this tab, the user finds the list of their favorite dishes. The user can click on a dish to see the detailed information about it. The information includes preparation time, ingredients, and, most importantly, a graph representing the dish flavors (salty, sour, sweet, bitter, meaty, piquant).
 
 ## Features to add
 
 1) User authentication (this will require changes to the client and the server/controllers.js file). The database already contains the Users table.
+
 2) Adding "Delete" buttons to the Favorites tab, so that the user can delete dishes from their Favorites list. The backend functionality for this is mostly ready.
+
 3) Providing personalized statistics on user flavors preferences.
+
 4) Modifying the query to the Yummly API.
+
 5) (Low priority) Compiling the list of ingredients for several dishes.
 
 ## Requirements
@@ -84,7 +88,7 @@ To install npm modules:
 from within the root directory
 
 ```sh
-run "npm install"
+npm install
 ```
 To install other client-side dependencies
 
@@ -105,7 +109,7 @@ ionic serve
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/SCHEMING-THUNDER/SCHEMING-THUNDER/issues)
 
 
 ### Description
@@ -116,7 +120,7 @@ The server is deployed to http://mealmatch.azurewebsites.net.
 
 We use Yummly API (https://developer.yummly.com/) to get the information on dishes.
 
-Client-sever interaction: when the user opens the Explore tab, a get request is sent to '/explore'. The server responds with an array of dishes, which is fetched from the database. When the user swipes a card to the right, a post request with information on that dish is sent to '/explore'. The server transmits this information to the database (join table of users and recipes, with the favorite recipes for a given user). When the user opens the Favorites tab, a get request is sent to '/list'.
+Client-sever interaction: when the user opens the Explore tab, a get request is sent to '/explore'. The server responds with an array of dishes, which is fetched from the database. When the user swipes a card to the right, a post request with information on that dish is sent to '/explore'. The server transmits this information to the database (join table of users and recipes, with the favorite recipes for a given user). When the user opens the Favorites tab, a get request is sent to '/list'. The server responds with an array of favorite dishes.
 
 ## Contributing
 
