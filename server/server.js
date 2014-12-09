@@ -10,6 +10,11 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
+// For seeding database*******************************
+// var helpers = require('./helpers.js');
+// var util = require('./db/utils');
+// ***************************************************
+
 // process.env.nodeEnv = 'production';
 // //process.env.OPENSHIFT_NODEJS_IP ||
 //            process.env.IP ||
@@ -48,3 +53,8 @@ app.use(express.static(whereTo));
 
 app.listen(app.get("port"));
 console.log("Listening on", app.get("port"));
+
+// Uncomment what you want to seed to the db **************
+//*********************************************************
+// helpers.getRecipes(util.addListOfRecipes);
+// util.addUser('Bob','Saget', console.log);

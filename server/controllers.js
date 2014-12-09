@@ -1,13 +1,57 @@
 var db = require('./db/db');
 var util = require('./db/utils');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
-var helpers = require('./helpers.js')
+var helpers = require('./helpers.js');
+var bcrypt = require('bcrypt');
 
 
 module.exports = {
+  login: {
+    get: function(req, res){
+
+    },
+    post: function(req, res){
+      // Expects req.body to have a username string and password string
+      var username = req.body.username;
+      var password = req.body.password;
+      util.findUserByName(username, function(err, user){
+        bcyrpt.compare(password, user.password, function(err, match){
+          if (match) {
+            // util.createSession(req, res, user);
+            res.redirect('/explore');
+          } else {
+            res.redirect('/login');
+          }
+        });
+      });
+    }
+  },
+
+  signup: {
+    get: function(req, res){
+
+    },
+    post: function(req, res){
+      // Expects req.body to have a username string and password string
+      var username = req.body.username;
+      var password = req.body.password;
+      util.doesUserExist(req.body.username, function(err, exists){
+        if (exists) {
+          res.redirect( 303 ,'/signup');
+        } else {
+          bcrypt.hash(password, null, null, function(err, hash){
+            util.addUser(req.body.username, hash, function(err, user){
+              // user should be user object
+              res.redirect('/explore');
+            });
+          });
+        }
+      });
+    }
+  },
+
   explore: {
-    get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
-      //Step 1): get recipes from the db;
+    get: function (req, res) {
       util.getAllRecipes(function(err,results) {
         if (err) {
           console.log("error retrieving:", err);
@@ -16,89 +60,37 @@ module.exports = {
           res.json(results);
         } 
       });
-      //Step 2): populate db with new recipes;
-      helpers.getRecipes(util.addListOfRecipes);
-      //Step 3): temporary. Since we do not have a sign-up page, add at least one 
-      //fake user to the database.
-      util.findUser("fakeUser", "fakePass", function (err, results) {
-          
-          util.addUser("fakeUser", "fakePass", function (err, results) {
-            if (err) {
-              console.log("error adding user", err);
-            }
-          })
-  
-      });
     },
-    post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
-      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
-        complete(function(err,user) {
-          if (err) {
-            console.log("userSearchErrorList");
-          } else {
-            db.Recipe.find({where: {recipeName: req.body.recipeName}}). //find the recipe to use as an argument to the helper function
-              complete(function(err, recipeEntry) {
-                if (err) {
-                  console.log("recipeNotFound");
-                } else {
-                  console.log("recipeEntry", recipeEntry);
-                  util.addRecipeToUserFavorites(user, recipeEntry, function (err, results) { //add the recipe to the join table of user's favorite foods
-                  if (err) {
-                    console.log("Error when adding to favs:", err);
-                  }
-                  res.sendStatus(201);      
-                  });  
-                }
-              })            
-          }
-        });
-    }    
+    post: function (req, res) {
+      util.findUser("Bob", "Saget", function (err, user) {
+        if(user){
+          util.addRecipeToUserFavorites(user, req.body, function(err, recipeEntry){
+            res.sendStatus(201);
+          });
+        } else {
+          console.log('User Doesn\'t exist');
+        }
+      });
+    }  
   },
             
   list: {
-    get: function (req, res) { // This means the user wants to see the list of his favorite dishes;
-      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
-        complete(function(err,user) {
-          if (err) {
-            console.log("userSearchErrorListOnGet");
-          } else {
-       //     console.log("userGetList", user);
-            util.getUserFavorites(user, function(err, recipes) { //get all the favorites for this user
-              if (err) {
-                console.log("Error retrieving favorites", err);
-              } else {
-                console.log("Userfavorites", recipes);
-                res.json(recipes); //send the array of recipes to the client
-              }  
-            });
-          }
-        });    
+    get: function (req, res) {
+      util.findUser('Bob','Saget',function(err, user){
+        if(user){
+          util.getUserFavorites(user, function(err, listOfFaves){
+            if(listOfFaves){
+              res.json(listOfFaves);
+            } else {
+              console.log('no list of favorites');
+            }
+          })
+        }
+      });   
     },
     post: function (req, res) {
       // never happens, not applicable;
-    },
-    /*todelete: function (req, res) { // The user wants to delete a recipe
-      db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
-        complete(function(err,user) {
-          if (err) {
-            console.log("userSearchErrorDelete");
-          } else {
-            db.Recipe.find({where: {recipeName: req.body.recipeName}}). //find the recipe to use as an argument to the helper function
-              complete(function(err, recipeEntry) {
-                if (err) {
-                  console.log("recipeNotFound");
-                } else {
-                  console.log("recipeEntry", recipeEntry);
-                  util.removeRecipeFromUserFavorites(user, recipeEntry, function (err) { //delete the recipe
-                  if (err) {
-                    console.log("Deletion error:", err);
-                  }
-                  res.sendStatus(200);      
-                  });  
-                }
-              })            
-          }
-        });
-    }*/
+    }
   }
+
 }

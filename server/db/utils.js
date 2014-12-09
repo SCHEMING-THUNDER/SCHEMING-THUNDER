@@ -122,21 +122,55 @@ var getAllRecipes = function(callback){
 }
 
 /**
-* @function findUser
+* @function findUser and authenticateUser
 * @param {String} username
 * @param {String} password
 * @param {Function} callback
-* callback receives error and user <br> user will be null if no user is found
+* callback receives error and user <br> user will be false if no user is found
 */
-var findUser = function(username, password, callback){
+var authenticateUser;
+var findUser = authenticateUser = function(username, password, callback){
   db.User.find({where: {username: username, password: password}})
   .complete(function(err, result){
     console.log("user search result", result);
     if (result === null) {
-      callback(err, result);
+      callback(err, false);
     } else {
-      console.log("user found");
-    //  callback(err, result.dataValues);
+     callback(err, result.dataValues);
+    }
+  });
+}
+
+/**
+* @function findUserByName
+* @param {String} username
+* @param {Function} callback
+* callback receives error and user <br> user will be false if no user is found
+*/
+var findUserByName = function(username, callback){
+  db.User.find({where: {username: username}})
+  .complete(function(err, result){
+    if (result === null) {
+      callback(err, false);
+    } else {
+      callback(err, result.dataValues);
+    }
+  });
+}
+
+/**
+* @function doesUserExist
+* @param {String} username
+* @param {Function} callback
+* callback receives error and a boolean
+*/
+var doesUserExist = function(username, callback){
+  db.User.find({where: {username: username}})
+  .complete(function(err, result){
+    if (result === null) {
+      callback(err, false);
+    } else {
+      callback(err, true);
     }
   });
 }
@@ -175,7 +209,7 @@ var addUser = function(username, password, callback){
 * callback receives errors and an array of recipe objects
 */
 var getUserFavorites = function(user, callback){
-  db.Favorite.find({where: {UserId: user.dataValues.id}})
+  db.Favorite.find({where: {UserId: user.id}})
   .complete(function(err,fav){
 //    console.log(fav);
     fav.getRecipes().complete(function(err,recipes){
@@ -232,18 +266,34 @@ var getUserFavorites = function(user, callback){
 * callback receives error and newRecipeEntry arguments
 */
 var addRecipeToUserFavorites = function(user, recipe, callback){
-  db.Favorite.find({where: {UserId: user.dataValues.id}})
+  db.Favorite.find({where: {UserId: user.id}})
   //db.User.find({where:{username: usId}})
   .complete(function(err,fav){
    // console.log("fav", fav);
-    db.Recipe.find({where: {id: recipe.id}})
-    .complete(function(err,recipeEntry){
-      fav.addRecipe(recipeEntry).complete(function(err,results){
-        if(callback){
-          callback(err, results);
-        }
-      });
+    db.FavoritesRecipes.find({where: {FavoriteId: fav.dataValues.id, RecipeId: recipe.id}})
+    .complete(function(err, found){
+      if (found && callback) {
+        callback(err, fav.dataValues)
+      } else {
+        db.Recipe.find({where: {id: recipe.id}})
+        .complete(function(err, recipeEntry){
+          fav.addRecipe(recipeEntry).complete(function(err,results){
+            if(callback){
+              callback(err, results.dataValues);
+            }
+          });
+        });  
+      }
     });
+
+    // db.Recipe.find({where: {id: recipe.id}})
+    // .complete(function(err,recipeEntry){
+    //   fav.addRecipe(recipeEntry).complete(function(err,results){
+    //     if(callback){
+    //       callback(err, results);
+    //     }
+    //   });
+    // });
   }); 
 }
 
@@ -271,6 +321,9 @@ var removeRecipeFromUserFavorites = function(user, recipe, callback){
 exports.addListOfRecipes = addListOfRecipes;
 exports.getAllRecipes = getAllRecipes;
 exports.findUser = findUser;
+exports.authenticateUser = authenticateUser;
+exports.findUserByName = findUserByName;
+exports.doesUserExist = doesUserExist;
 exports.addUser = addUser;
 exports.getUserFavorites = getUserFavorites;
 exports.addRecipeToUserFavorites = addRecipeToUserFavorites;
