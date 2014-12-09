@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
 
  //  if(Object.keys($localstorage.getObject('temp')).length ===0){
       console.log('making a http request');
-      $http.get("http://restfulrecipes.azurewebsites.net/explore").success(function(data, status, headers, config) {
+      $http.get("http://localhost:3000/explore").success(function(data, status, headers, config) {
         console.log('success', data);
         cardTypes = data;
         $scope.cards = Array.prototype.slice.call(cardTypes, 1,2);
@@ -74,7 +74,7 @@ angular.module('starter.controllers', [])
     console.log('RIGHT SWIPE');
     console.log(card);
     // $scope.addCard();
-    $http.post("http://restfulrecipes.azurewebsites.net/explore", card).success(function(data, status, headers, config) {
+    $http.post("http://localhost:3000/explore", card).success(function(data, status, headers, config) {
         console.log('success', data, headers);
       })
       .error(function(data, status, headers, config) {
