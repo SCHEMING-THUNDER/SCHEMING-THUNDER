@@ -120,7 +120,7 @@ The server is deployed to http://mealmatch.azurewebsites.net.
 
 We use Yummly API (https://developer.yummly.com/) to get the information on dishes.
 
-Client-sever interaction: when the user opens the Explore tab, a get request is sent to '/explore'. The server responds with an array of dishes, which is fetched from the database. When the user swipes a card to the right, a post request with information on that dish is sent to '/explore'. The server transmits this information to the database (join table of users and recipes, with the favorite recipes for a given user). When the user opens the Favorites tab, a get request is sent to '/list'. The server responds with an array of favorite dishes.
+Client-server interaction: when the user opens the Explore tab, a get request is sent to '/explore'. The server responds with an array of dishes, which is fetched from the database. When the user swipes a card to the right, a post request with information on that dish is sent to '/explore'. The server transmits this information to the database (join table of users and recipes, with the favorite recipes for a given user). When the user opens the Favorites tab, a get request is sent to '/list'. The server responds with an array of favorite dishes.
 
 ## Contributing
 
