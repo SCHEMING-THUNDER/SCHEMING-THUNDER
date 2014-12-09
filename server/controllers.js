@@ -1,6 +1,6 @@
 var db = require('./db/db');
 var util = require('./db/utils');
-var bluebird = require('bluebird'); //promise library, will have to think more about it
+var bluebird = require('bluebird'); //promise library
 var helpers = require('./helpers.js')
 
 
@@ -27,7 +27,6 @@ module.exports = {
               console.log("error adding user", err);
             }
           })
-  
       });
     },
     post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"

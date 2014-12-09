@@ -8,7 +8,7 @@ exports.getRecipes = function (callback) { //the function with the request to Yu
       console.log("scrapingErr", err);
     } else {
       var dishes = JSON.parse(res.body).matches;
-      console.log("response", dishes);
+      console.log("response", dishes); //to see the results that we received from Yummly
       callback(dishes, function(err) {
         if (err) {
           console.log("errror adding recipes to db", err);
