@@ -278,11 +278,21 @@ var addRecipeToUserFavorites = function(user, recipe, callback){
       } else {
         db.Recipe.find({where: {recipeName: recipe.recipeName}})
         .complete(function(err, recipeEntry){
-          fav.addRecipe(recipeEntry).complete(function(err,results){
-            if(callback){
-              callback(err, results.dataValues);
-            }
-          });
+          if(recipeEntry){
+            fav.addRecipe(recipeEntry).complete(function(err,results){
+              if(callback){
+                callback(err, results.dataValues);
+              }
+            });
+          } else {
+            addListOfRecipes([recipe], function(err, recipeEntry){
+              fav.addRecipe(recipeEntry).complete(function(err,results){
+                if(callback){
+                  callback(err, results.dataValues);
+                }
+              });
+            });
+          }
         });  
       }
     });
