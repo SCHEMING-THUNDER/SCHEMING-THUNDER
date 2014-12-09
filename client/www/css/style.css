@@ -83,7 +83,6 @@ td-card img {
 
 .chart div {
   font: 10px sans-serif;
-  background-color: steelblue;
   text-align: right;
   padding: 3px;
   margin: 5px;
@@ -94,4 +93,22 @@ td-card img {
 .chart div{
   text-align:left;
   font-weight: bolder;
+}
+.chart .salty{
+  background-color: navy;
+}
+.chart .sour{
+  background-color: seagreen;
+}
+.chart .sweet{
+  background-color: palevioletred ;
+}
+.chart .meaty{
+  background-color: darkred;
+}
+.chart .bitter{
+  background-color: goldenrod;
+}
+.chart .piquant{
+  background-color: red;
 }
