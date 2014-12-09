@@ -19,12 +19,12 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
       smallImageUrls: curr.smallImageUrls[0] || '',
 
       // Defaults to 0 if not available
-      salty: curr.flavors.salty || 0,
-      sour: curr.flavors.sour || 0,
-      sweet: curr.flavors.sweet || 0,
-      bitter: curr.flavors.bitter || 0,
-      meaty: curr.flavors.meaty || 0,
-      piquant: curr.flavors.piquant || 0,
+      salty: curr.flavors ? curr.flavors.salty : 0,
+      sour: curr.flavors ? curr.flavors.sour : 0,
+      sweet: curr.flavors ? curr.flavors.sweet : 0,
+      bitter: curr.flavors ? curr.flavors.bitter : 0,
+      meaty: curr.flavors ? curr.flavors.meaty : 0,
+      piquant: curr.flavors ? curr.flavors.piquant : 0,
 
       // Small arrays stored as strings w/ , delimiter
       course: curr.attributes.course ? curr.attributes.course.join(',') : '',

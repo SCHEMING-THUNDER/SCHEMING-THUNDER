@@ -10,7 +10,7 @@ angular.module('starter.services', [])
     var self = this;
       return $http({
         method: 'GET',
-        url: 'http://localhost:3000/list'
+        url: 'http://mealmatch.azurewebsites.net/list'
       })
       .then(function(res) {
         return res.data;
@@ -26,7 +26,7 @@ angular.module('starter.services', [])
   var deleteFromFavorites = function(item) {
       return $http({
         method: 'DELETE',
-        url: 'http://localhost:3000/list',
+        url: 'http://mealmatch.azurewebsites.net/list',
         data: item
       })
     }
