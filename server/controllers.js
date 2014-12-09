@@ -7,6 +7,18 @@ var helpers = require('./helpers.js')
 module.exports = {
   explore: {
     get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
+      util.findUser("fakeUser", "fakePass", function (err, results) {
+          
+          helpers.getRecipes(util.addListOfRecipes);
+          util.addUser("fakeUser", "fakePass", function (err, results) {
+            if (err) {
+              console.log("error adding user", err);
+            }
+          })
+          
+      });
+  
+
       //Step 1): get recipes from the db;
       util.getAllRecipes(function(err,results) {
         if (err) {
@@ -20,14 +32,10 @@ module.exports = {
  //     helpers.getRecipes(util.addListOfRecipes);
       //Step 3): temporary. Since we do not have a sign-up page, add at least one 
       //fake user to the database.
-      util.findUser("fakeUser", "fakePass", function (err, results) {
+      /*util.findUser("fakeUser", "fakePass", function (err, results) {
           
-          util.addUser("fakeUser", "fakePass", function (err, results) {
-            if (err) {
-              console.log("error adding user", err);
-            }
-          })
-      });
+          
+      });*/
     },
 
     post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
