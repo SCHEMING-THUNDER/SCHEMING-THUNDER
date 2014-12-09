@@ -1,11 +1,20 @@
+/**
+* @fileOverview General Database Helpers.
+* @author Arthur Chan
+* @version 0.0.1
+*/
+
 var db = require('./db');
 //**********************************************
 // General Database Helpers
 //**********************************************
 
-// adds a list of recipes to the db, will not duplicate
-// if ingredient of recipe does not exist in db, put it in
-// build relationships
+/**
+* @function addListOfRecipes
+* @param {Array} arrayOfRecipes 
+* @param {Function} [callback]
+* callback receives three arrays: errors, entries, createdBools
+*/
 var addListOfRecipes = function(arrayOfRecipes, callback){
   var errLog = [];
   var listSaved = [];
@@ -60,9 +69,22 @@ var addListOfRecipes = function(arrayOfRecipes, callback){
   recurse(arrayOfRecipes.length - 1);
 }
 
-// Input: callback
-// Output: invoke callback(err, recipeList)
-// recipeList will be an array of recipe objects
+/**
+* @function getAllRecipes
+* @param {Function} callback
+* Invokes callback(err, recipeList)
+* <br>recipeList will be an array of recipe objects
+* <ul>
+*   Recipe Object:
+*   <li> id </li>
+*   <li> recipeName </li>
+*   <li> totalTimeInSeconds </li>
+*   <li> Ingredients </li>
+*   <li> smallImageUrls </li>
+*   <li> flavors </li>
+*   <li> attributes </li>
+* </ul>
+*/
 var getAllRecipes = function(callback){
     var results =[];
     db.Recipe.findAll({include: [db.Ingredient]}).complete(function(err,result){
@@ -100,9 +122,13 @@ var getAllRecipes = function(callback){
     });
 }
 
-// Input: username, password, and REQUIRED callback 
-// Output: invoke callback(err, user)
-// user will be an object with user data
+/**
+* @function findUser
+* @param {String} username
+* @param {String} password
+* @param {Function} callback
+* callback receives error and user <br> user will be null if no user is found
+*/
 var findUser = function(username, password, callback){
   db.User.find({where: {username: username, password: password}})
   .complete(function(err, result){
@@ -116,9 +142,13 @@ var findUser = function(username, password, callback){
   });
 }
 
-// Input: username, password, and optional callback
-// Ouput: If callback provided, invoke callback(err, user)
-// user will be an object with user data
+/**
+* @function addUser
+* @param {String} username
+* @param {String} password
+* @param {Function} [callback]
+* callback receives error object and user object
+*/
 var addUser = function(username, password, callback){
   console.log("we are adding a user");
   db.User.create({
@@ -139,9 +169,12 @@ var addUser = function(username, password, callback){
 // User favorites list helpers
 //**********************************************
 
-// Input: user object, and a required callback
-// Output: invokes callback(err, results)
-// results will be an array of recipe objects
+/**
+* @function getUserFavorites
+* @param {Object} user
+* @param {Function} callback
+* callback receives errors and an array of recipe objects
+*/
 var getUserFavorites = function(user, callback){
   db.Favorite.find({where: {UserId: user.id}})
   .complete(function(err,fav){
@@ -192,8 +225,13 @@ var getUserFavorites = function(user, callback){
   });
 }
 
-// Input: user object , recipe object, and an optional callback
-// Output: if provided a callback, invoke callback(err, results)
+/**
+* @function addRecipeToUserFavorites
+* @param {Object} user
+* @param {Object} recipe
+* @param {Function} [callback]
+* callback receives error and newRecipeEntry arguments
+*/
 var addRecipeToUserFavorites = function(user, recipe, callback){
   db.Favorite.find({where: {UserId: user.id}})
   //db.User.find({where:{username: usId}})
@@ -210,9 +248,13 @@ var addRecipeToUserFavorites = function(user, recipe, callback){
   }); 
 }
 
-// Input: user object, recipe object, and an optional callback
-// Output: if provided a callback, invoke callback(err, removed)
-// if successful, removed === [1]
+/**
+* @function removeRecipeFromUserFavorites
+* @param {Object} user
+* @param {Object} recipe
+* @param {Function} callback
+* callback receives error and the removed recipe entry
+*/
 var removeRecipeFromUserFavorites = function(user, recipe, callback){
  db.Favorite.find({where: {UserId: user.id}})
  .complete(function(err,fav){
