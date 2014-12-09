@@ -1,9 +1,9 @@
 var path = require('path');
 var Sequelize = require('sequelize');
-var orm = new Sequelize('scheming_thunder', '', '', {
+/*var orm = new Sequelize('scheming_thunder', '', '', {
   dialect: 'sqlite',
   storage: path.join(__dirname, 'scheming_thunder')
-});
+});*/
 
 orm.authenticate().complete(function(err){
   if(!!err){

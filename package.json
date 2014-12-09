@@ -22,7 +22,7 @@
     "underscore": "^1.7.0"
   },
   "scripts": {
-    "prestart": "rm server/db/scheming_thunder",
+  
     "start": "node server/server.js"
   }
 }
