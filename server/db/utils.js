@@ -11,7 +11,7 @@ var db = require('./db');
 
 /**
 * @function addListOfRecipes
-* @param {Array} arrayOfRecipes 
+* @param {Array} arrayOfRecipes
 * @param {Function} [callback]
 * callback receives three arrays: errors, entries, createdBools
 */
