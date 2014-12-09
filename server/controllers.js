@@ -29,6 +29,7 @@ module.exports = {
           })
       });
     },
+
     post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
       db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
         complete(function(err,user) {
@@ -52,6 +53,7 @@ module.exports = {
           }
         });
     }    
+
   },
             
   list: {
