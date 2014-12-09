@@ -17,7 +17,7 @@ module.exports = {
         } 
       });
       //Step 2): populate db with new recipes;
-      helpers.getRecipes(util.addListOfRecipes);
+ //     helpers.getRecipes(util.addListOfRecipes);
       //Step 3): temporary. Since we do not have a sign-up page, add at least one 
       //fake user to the database.
       util.findUser("fakeUser", "fakePass", function (err, results) {
