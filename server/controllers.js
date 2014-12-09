@@ -1,12 +1,24 @@
 var db = require('./db/db');
 var util = require('./db/utils');
-var bluebird = require('bluebird'); //promise library, will have to think more about it
+var bluebird = require('bluebird'); //promise library
 var helpers = require('./helpers.js')
 
 
 module.exports = {
   explore: {
     get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
+      util.findUser("fakeUser", "fakePass", function (err, results) {
+          
+         
+          util.addUser("fakeUser", "fakePass", function (err, results) {
+            if (err) {
+              console.log("error adding user", err);
+            }
+          })
+          
+      });
+  
+
       //Step 1): get recipes from the db;
       util.getAllRecipes(function(err,results) {
         if (err) {
@@ -16,20 +28,18 @@ module.exports = {
           res.json(results);
         } 
       });
+
+
       //Step 2): populate db with new recipes;
       helpers.getRecipes(util.addListOfRecipes);
       //Step 3): temporary. Since we do not have a sign-up page, add at least one 
       //fake user to the database.
-      util.findUser("fakeUser", "fakePass", function (err, results) {
+      /*util.findUser("fakeUser", "fakePass", function (err, results) {
           
-          util.addUser("fakeUser", "fakePass", function (err, results) {
-            if (err) {
-              console.log("error adding user", err);
-            }
-          })
-  
-      });
+          
+      });*/
     },
+
     post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
       db.User.find({where: {username: "fakeUser"}}). //find the user to use as an argument to the helper function
         complete(function(err,user) {
@@ -53,6 +63,7 @@ module.exports = {
           }
         });
     }    
+
   },
             
   list: {

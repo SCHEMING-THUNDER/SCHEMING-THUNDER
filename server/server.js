@@ -5,15 +5,9 @@ var path = require('path');
 var morgan = require('morgan');
 var parser = require('body-parser');
 var cors = require('cors');
-//var process = require('process');
 
 // Router
 var router = require('./routes.js');
-
-// process.env.nodeEnv = 'production';
-// //process.env.OPENSHIFT_NODEJS_IP ||
-//            process.env.IP ||
-//            undefined;
 
 console.log("running", process.env.nodeEnv);
 

@@ -67,6 +67,7 @@ var getAllRecipes = function(callback){
     var results =[];
     db.Recipe.findAll({include: [db.Ingredient]}).complete(function(err,result){
         var results = [];
+        console.log("resultofgetAll", result);
         for(var k=0; k<result.length; k++){
             var temp = {};
             temp.recipeName = result[k].dataValues.recipeName;
