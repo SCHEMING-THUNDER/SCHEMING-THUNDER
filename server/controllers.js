@@ -32,13 +32,13 @@ module.exports = {
               console.log("error adding user", err);
             }
           });
-          helpers.getRecipes(util.addListOfRecipes); //if there is no user in the users database, this means
-                                                     //that recipes database is empty too, so we populate it;
+          helpers.getRecipes(util.addListOfRecipes); //if there are no users in the Users database, this means
+                                                     //that the Recipes database is empty too, so we populate it;
                                                      //the number of dishes fetched from the external API can be changed in the helpers file          
       });
   
 
-      //Step 2): get recipes from the db and send them to the client;
+      //Step 2): getting recipes from the db and sending them to the client;
       util.getAllRecipes(function(err,results) {
         if (err) {
           console.log("error retrieving:", err);
