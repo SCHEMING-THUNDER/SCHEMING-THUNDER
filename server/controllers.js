@@ -9,7 +9,7 @@ module.exports = {
     get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
       util.findUser("fakeUser", "fakePass", function (err, results) {
           
-          helpers.getRecipes(util.addListOfRecipes);
+         
           util.addUser("fakeUser", "fakePass", function (err, results) {
             if (err) {
               console.log("error adding user", err);
@@ -28,8 +28,10 @@ module.exports = {
           res.json(results);
         } 
       });
+
+
       //Step 2): populate db with new recipes;
- //     helpers.getRecipes(util.addListOfRecipes);
+      helpers.getRecipes(util.addListOfRecipes);
       //Step 3): temporary. Since we do not have a sign-up page, add at least one 
       //fake user to the database.
       /*util.findUser("fakeUser", "fakePass", function (err, results) {
