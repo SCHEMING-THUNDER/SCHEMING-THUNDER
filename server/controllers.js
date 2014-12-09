@@ -2,7 +2,7 @@ var db = require('./db/db');
 var util = require('./db/utils');
 var bluebird = require('bluebird'); //promise library, will have to think more about it
 var helpers = require('./helpers.js');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = {

@@ -275,7 +275,7 @@ var addRecipeToUserFavorites = function(user, recipe, callback){
       if (found && callback) {
         callback(err, fav.dataValues)
       } else {
-        db.Recipe.find({where: {id: recipe.id}})
+        db.Recipe.find({where: {recipeName: recipe.recipeName}})
         .complete(function(err, recipeEntry){
           fav.addRecipe(recipeEntry).complete(function(err,results){
             if(callback){
@@ -285,15 +285,6 @@ var addRecipeToUserFavorites = function(user, recipe, callback){
         });  
       }
     });
-
-    // db.Recipe.find({where: {id: recipe.id}})
-    // .complete(function(err,recipeEntry){
-    //   fav.addRecipe(recipeEntry).complete(function(err,results){
-    //     if(callback){
-    //       callback(err, results);
-    //     }
-    //   });
-    // });
   }); 
 }
 
