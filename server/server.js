@@ -9,6 +9,21 @@ var cors = require('cors');
 // Router
 var router = require('./routes.js');
 
+// For seeding database*******************************
+/*
+  The first time you run the server, create the database and populate it
+  using the code below. OR you can move the four lines to a separate js file
+  and run it through node.
+*/
+// Uncomment what you want to seed.
+//****************************************************
+// var helpers = require('./helpers.js');
+// var util = require('./db/utils');
+// helpers.getRecipes(util.addListOfRecipes);
+// util.addUser('Bob','Saget', console.log);
+// ***************************************************
+
+
 console.log("running", process.env.nodeEnv);
 
 //Port
@@ -42,3 +57,5 @@ app.use(express.static(whereTo));
 
 app.listen(app.get("port"));
 console.log("Listening on", app.get("port"));
+
+

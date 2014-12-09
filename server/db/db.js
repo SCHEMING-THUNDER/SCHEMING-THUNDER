@@ -64,10 +64,10 @@ orm.define('MealsRecipes',{
   RecipeId: Sequelize.INTEGER
 }).sync();
 
-orm.define('FavoritesRecipes',{
+var FavoritesRecipes = orm.define('FavoritesRecipes',{
   FavoriteId: Sequelize.INTEGER,
   RecipeId: Sequelize.INTEGER
-}).sync();
+});
 
 //****************************************
 //*******ASSOCIATIONS*********************
@@ -99,9 +99,12 @@ Recipe.sync();
 //Img.sync();
 Ingredient.sync();
 
+FavoritesRecipes.sync();
+
 exports.User = User;
 exports.Favorite = Favorite;
 exports.Meal = Meal;
 exports.Recipe = Recipe;
 //exports.Img = Img;
 exports.Ingredient = Ingredient;
+exports.FavoritesRecipes = FavoritesRecipes;
