@@ -5,21 +5,40 @@ var helpers = require('./helpers.js')
 
 
 module.exports = {
-  explore: {
-    get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
-      util.findUser("fakeUser", "fakePass", function (err, results) {
-          
-         
+ /* start: {  //can be uncommented and used for initialization if the client users local storage
+    get: function(req, res) { //initialization (if the user does not send a request to explore
+                              // because local storage is not empty)
+    util.findUser("fakeUser", "fakePass", function (err, results) { 
           util.addUser("fakeUser", "fakePass", function (err, results) {
             if (err) {
               console.log("error adding user", err);
             }
-          })
-          
+          });
+          helpers.getRecipes(util.addListOfRecipes);               
+      });
+    },
+    post: function(req, res) {
+       // never happens, not applicable;
+    }
+  },*/
+
+  explore: {
+    get: function (req, res) { //the user wants to get a stack of cards with pictures of various dishes
+      
+      // Step 1): initialization and population of the database (if it is empty)
+      util.findUser("fakeUser", "fakePass", function (err, results) {  //if there are no users in the database, we add a user;
+          util.addUser("fakeUser", "fakePass", function (err, results) {
+            if (err) {
+              console.log("error adding user", err);
+            }
+          });
+          helpers.getRecipes(util.addListOfRecipes); //if there is no user in the users database, this means
+                                                     //that recipes database is empty too, so we populate it;
+                                                     //the number of dishes fetched from the external API can be changed in the helpers file          
       });
   
 
-      //Step 1): get recipes from the db;
+      //Step 2): get recipes from the db and send them to the client;
       util.getAllRecipes(function(err,results) {
         if (err) {
           console.log("error retrieving:", err);
@@ -28,16 +47,6 @@ module.exports = {
           res.json(results);
         } 
       });
-
-
-      //Step 2): populate db with new recipes;
-      helpers.getRecipes(util.addListOfRecipes);
-      //Step 3): temporary. Since we do not have a sign-up page, add at least one 
-      //fake user to the database.
-      /*util.findUser("fakeUser", "fakePass", function (err, results) {
-          
-          
-      });*/
     },
 
     post: function (req, res) { //the user shortlisted a card with a dish by doing the "right swipe"
@@ -46,13 +55,14 @@ module.exports = {
           if (err) {
             console.log("userSearchErrorList");
           } else {
+            console.log("userPost", user);
             db.Recipe.find({where: {recipeName: req.body.recipeName}}). //find the recipe to use as an argument to the helper function
               complete(function(err, recipeEntry) {
                 if (err) {
                   console.log("recipeNotFound");
                 } else {
                   console.log("recipeEntry", recipeEntry);
-                  util.addRecipeToUserFavorites(user, recipeEntry, function (err, results) { //add the recipe to the join table of user's favorite foods
+                  util.addRecipeToUserFavorites(user.dataValues, recipeEntry, function (err, results) { //add the recipe to the join table of user's favorite foods
                   if (err) {
                     console.log("Error when adding to favs:", err);
                   }
@@ -73,8 +83,8 @@ module.exports = {
           if (err) {
             console.log("userSearchErrorListOnGet");
           } else {
-       //     console.log("userGetList", user);
-            util.getUserFavorites(user, function(err, recipes) { //get all the favorites for this user
+           console.log("userGetList", user);
+            util.getUserFavorites(user.dataValues, function(err, recipes) { //get all the favorites for this user
               if (err) {
                 console.log("Error retrieving favorites", err);
               } else {

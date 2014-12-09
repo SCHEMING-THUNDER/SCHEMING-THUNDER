@@ -143,7 +143,7 @@ var addUser = function(username, password, callback){
 // Output: invokes callback(err, results)
 // results will be an array of recipe objects
 var getUserFavorites = function(user, callback){
-  db.Favorite.find({where: {UserId: user.dataValues.id}})
+  db.Favorite.find({where: {UserId: user.id}})
   .complete(function(err,fav){
 //    console.log(fav);
     fav.getRecipes().complete(function(err,recipes){
@@ -195,7 +195,7 @@ var getUserFavorites = function(user, callback){
 // Input: user object , recipe object, and an optional callback
 // Output: if provided a callback, invoke callback(err, results)
 var addRecipeToUserFavorites = function(user, recipe, callback){
-  db.Favorite.find({where: {UserId: user.dataValues.id}})
+  db.Favorite.find({where: {UserId: user.id}})
   //db.User.find({where:{username: usId}})
   .complete(function(err,fav){
    // console.log("fav", fav);
